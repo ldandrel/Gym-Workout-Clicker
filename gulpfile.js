@@ -11,6 +11,7 @@ const connect      = require('gulp-connect')
 
 
 
+
 var config = {
     'root': 'dist/',
     'src' : 'src/',
@@ -71,6 +72,13 @@ gulp.task('html', function () {
     return gulp.src(config.root + '*.html')
         .pipe(connect.reload())
 })
+
+
+
+
+
+
+
 
 gulp.task('watch', function() {
     gulp.watch(config.src + 'scss/**/*.scss', ['sass'])
