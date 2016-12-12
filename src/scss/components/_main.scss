@@ -1,0 +1,39 @@
+.landing_screen
+{
+	background: #FE4E42;
+	width: 100vw;
+	height: 100vh;
+	position: absolute;
+	top: 0;
+	left: 0;
+	text-align: center;
+	color: #fff;
+	padding: 150px;
+	will-change: transform;
+	transform: translateY(0vh);
+	transition: transform 0.5s ease;
+
+	.play_button
+	{
+		border-radius: 20px;
+		border: none;
+		background: #4BABEB;
+		color: #fff;
+		text-transform: uppercase;
+		padding: 10px 15px;
+		width: 100px;
+		outline: none;
+	}
+}
+
+.hide_landing .landing_screen
+{
+	transform: translateY(-100vh);
+}
+
+.click_button
+{
+	width:200px;
+	height: 200px;
+	background: #FE4E42;
+}
