@@ -11,7 +11,7 @@ const connect      = require('gulp-connect')
 
 
 
-let config = {
+var config = {
     'root': 'dist/',
     'src' : 'src/',
     'dist': 'dist/assets/'
