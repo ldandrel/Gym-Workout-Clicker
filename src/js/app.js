@@ -1,23 +1,22 @@
 var index 				 	   = {};
 	index.container 	 	   = document.querySelector('body');
 	index.button		 	   = index.container.querySelector('.click_button');
-	index.force_display  	   = index.container.querySelector('.force_display');
-	index.force_second_display = index.container.querySelector('.force_second_display');
-	index.fame_display         = index.container.querySelector('.fame_display');
-	index.fame_second_display  = index.container.querySelector('.fame_second_display');
+	index.force_display  	   = index.container.querySelector('.force_display span');
+	index.force_second_display = index.container.querySelector('.force_second_display span');
+	index.fame_display         = index.container.querySelector('.fame_display span');
+	index.fame_second_display  = index.container.querySelector('.fame_second_display span');
+	index.click_value_display  = index.container.querySelector('.click_value_display');
 	index.landing        	   = index.container.querySelector('.landing_screen');
 	index.landing_button 	   = index.container.querySelector('.play_button');
 	index.amelioration_list    = index.container.querySelector('.amelioration-list');
 	index.amelioration_button  = [];
-
-		console.log('hey');
 
 var character 		  	   = {};
 	character.force    	   = 0;
 	character.force_second = 0;
 	character.fame   	   = 0;
 	character.fame_second  = 0;
-	character.click_value  = amelioration[0][0].level;
+	character.click_value  = 1;
 	character.page_amelio  = 0;
 
 
@@ -45,6 +44,16 @@ else
 {
 	character.force_second = parseInt(character.force_second);
 	index.force_second_display.innerHTML = character.force_second;
+}
+
+//Get click_value
+character.click_value = localStorage.getItem('click_value');
+if (isNaN(character.click_value))
+	character.click_value = 1;
+else
+{
+	character.click_value = parseInt(character.click_value);
+	index.click_value_display.innerHTML = character.click_value;
 }
 
 //Get fame
@@ -77,25 +86,26 @@ function change_score_value () {
 	index.force_second_display.innerHTML = parseInt(character.force_second);
 	index.fame_display.innerHTML         = parseInt(character.fame);
 	index.fame_second_display.innerHTML  = parseInt(character.fame_second);
+	index.click_value_display.innerHTML  = parseInt(character.click_value);
 }
 change_score_value ();
 
 //Change the value of the ameliorations
 function change_amelioration_value (index) {
 	
-	var to_change = document.querySelector('li.index-' + index),
+	var to_change       = document.querySelector('li.index-' + index),
 		to_change_value = to_change.querySelector('.value'),
 		to_change_level = to_change.querySelector('.level');
 
 	to_change_value.innerHTML = amelioration[character.page_amelio][index].strength;
 	to_change_level.innerHTML = amelioration[character.page_amelio][index].level;
 
-	console.log(amelioration[character.page_amelio][index])
+	if (amelioration[character.page_amelio][index].results == 'click_value')
+	{
+		character.click_value = character.click_value + (amelioration[character.page_amelio][index].value);
+	}
 
-	if (index == 0)
-		character.click_value = parseInt(amelioration[character.page_amelio][0].level);
 	else if (index == 1)
-		console.log(amelioration[character.page_amelio][1].level)
 		character.fame_second = parseInt(amelioration[character.page_amelio][1].level);
 }
 
@@ -109,6 +119,7 @@ setInterval(function () {
 	localStorage.setItem('force_second', character.force_second);
 	localStorage.setItem('fame', character.fame);
 	localStorage.setItem('fame_second', character.fame_second);
+	localStorage.setItem('click_value', character.click_value);
 }, 1000);
 
 //Increase the fame and strength per minute
@@ -127,7 +138,7 @@ Interface interactions
 //on click on the click zoneincrement score
 index.button.addEventListener('click', function() {
 		character.force = parseInt(character.force);
-		character.force = parseInt(character.force + character.click_value + 1);
+		character.force = parseInt(character.force) + parseInt(character.click_value);
 		change_score_value();
 });
 
@@ -150,9 +161,11 @@ display_ameliorations ();
 
 //retrieve ameliorations to buy
 function add_event_buy () {
-	for (var i = 0; i < amelioration.length; i++)
+	for (var i = 0; i < amelioration[character.page_amelio].length; i++)
 	{
 		index.amelioration_button[i] = index.container.querySelector('.buy-button.index-' + i);
+
+		console.log(i);
 
 		index.amelioration_button[i].addEventListener('click', function () {
 			var index    = this.getAttribute('data-index'),

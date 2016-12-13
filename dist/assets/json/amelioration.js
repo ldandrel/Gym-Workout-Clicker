@@ -19,6 +19,7 @@ if (!amelioration)
 		'strength'	  : 15,
 		'fame'        : 0,
 		'level'       : 0,
+		'value'		  : 1,
 		'results'     : 'click_value',
 		'icon'        : 'halteres.png',
 		'again'       : true,
@@ -27,7 +28,7 @@ if (!amelioration)
 		{
 			'name'        : 'Matières',
 			'description' : 'Changez les matériaux de vos haltères : plastique, bois, acier, fonte... Plus vous en achetez plus vous serez fort',
-			'carac'       : '*2_halteres',
+			'results'       : '*2_halteres',
 			'strength'    : '100',
 			'icon'        : 'upgrade.png',
 			'again'       : true,
@@ -36,7 +37,7 @@ if (!amelioration)
 		{
 			'name'        : 'Poids',
 			'description' : 'Changez le poids de vos haltères. Plus en seront lourdes plus vous serez fort !',
-			'carac'       : '*4_halteres',
+			'results'     : '*4_halteres',
 			'strength'    : '500',
 			'icon'        : 'upgrade.png',
 			'again'       : true,
@@ -51,7 +52,8 @@ if (!amelioration)
 		'strength'	  : 100,
 		'fame'        : 0,
 		'level'       : 0,
-		'results'     : 'auto_click',
+		'value'		  : 2,
+		'results'     : 'click_value',
 		'icon'        : 'halteres.png',
 		'again'       : true,
 		'bought'      : false,
@@ -59,7 +61,7 @@ if (!amelioration)
 		{
 			'name'        : 'Ceinture abdominale',
 			'description' : 'Achetez une ceinture abdominale pour devenir plus fort !',
-			'carac'       : '*2_equipement',
+			'results'       : '*2_equipement',
 			'strength'    : '1000',
 			'icon'        : 'upgrade.png',
 			'again'       : false,
@@ -68,7 +70,7 @@ if (!amelioration)
 		{
 			'name'        : 'Bracelet connecté',
 			'description' : 'Achetez un brancelet connecté pour être  !',
-			'carac'       : '+1%_strenght',
+			'results'       : '+1%_strenght',
 			'strength'    : '1000000000',
 			'icon'        : 'upgrade.png',
 			'again'       : false,
