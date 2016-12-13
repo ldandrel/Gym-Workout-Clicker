@@ -11,10 +11,31 @@ if (!amelioration)
 	amelioration =
 	[
 	{
-		'name'  : 'Poids',
-		'value' : 50,
-		'fame'  : 0,
-		'level' : 0
+		'name'    : 'Poids',
+		'value'   : 50,
+		'fame'    : 0,
+		'level'   : 0,
+		'upgrade' : [
+		{
+			'name'   : 'alter',
+			'carac'  : 'force1',
+			'icon'   : 'image-2.png',
+			'again'  : false,
+			'bought' : false
+		},
+		'name'    : 'Poids',
+		'value'   : 50,
+		'fame'    : 0,
+		'level'   : 0,
+		'upgrade' : [
+		{
+			'name'   : 'alter',
+			'carac'  : 'force1',
+			'icon'   : 'image-2.png',
+			'again'  : false,
+			'bought' : false
+		},
+		];
 	},
 	{
 		'name'  : 'Get on social Medias',

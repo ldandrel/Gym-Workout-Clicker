@@ -57,7 +57,10 @@ else
 //Get fame per second
 character.fame_second = localStorage.getItem('fame_second');
 if (isNaN(character.fame_second))
+{
 	character.fame_second = 0;
+	change_score_value();
+}
 else
 {
 	character.fame_second = parseInt(character.fame_second);
@@ -86,6 +89,9 @@ function change_amelioration_value (index) {
 
 	if (index == 0)
 		character.click_value = parseInt(amelioration[0].level);
+	else if (index == 1)
+		console.log(amelioration[1].level)
+		character.fame_second = parseInt(amelioration[1].level);
 }
 
 //Sync the score every second
@@ -99,6 +105,13 @@ setInterval(function () {
 	localStorage.setItem('fame', character.fame);
 	localStorage.setItem('fame_second', character.fame_second);
 }, 1000);
+
+//Increase the fame and strength per minute
+setInterval(function () {
+
+	character.fame = parseInt(character.fame + character.fame_second);
+	change_score_value();
+}, 100)
 
 /********************
 
@@ -155,9 +168,3 @@ function add_event_buy () {
 		});
 	}
 }
-
-//Increase the fame and strength per minute
-setInterval(function () {
-
-	console.log('hey');
-}, 100)
