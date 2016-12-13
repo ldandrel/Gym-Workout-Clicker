@@ -27,7 +27,7 @@ if (!amelioration)
 		{
 			'name'        : 'Matières',
 			'description' : 'Changez les matériaux de vos haltères : plastique, bois, acier, fonte... Plus vous en achetez plus vous serez fort',
-			'carac'       : '*2_halteres',
+			'results'       : '*2_halteres',
 			'strength'    : '100',
 			'icon'        : 'upgrade.png',
 			'again'       : true,
@@ -36,7 +36,7 @@ if (!amelioration)
 		{
 			'name'        : 'Poids',
 			'description' : 'Changez le poids de vos haltères. Plus en seront lourdes plus vous serez fort !',
-			'carac'       : '*4_halteres',
+			'results'       : '*4_halteres',
 			'strength'    : '500',
 			'icon'        : 'upgrade.png',
 			'again'       : true,
@@ -59,7 +59,8 @@ if (!amelioration)
 		{
 			'name'        : 'Ceinture abdominale',
 			'description' : 'Achetez une ceinture abdominale pour devenir plus fort !',
-			'carac'       : '*2_equipement',
+			'results'     : 'twice_equipement',
+			'value'		  : 2,
 			'strength'    : '1000',
 			'icon'        : 'upgrade.png',
 			'again'       : false,
@@ -68,7 +69,69 @@ if (!amelioration)
 		{
 			'name'        : 'Bracelet connecté',
 			'description' : 'Achetez un brancelet connecté pour être  !',
-			'carac'       : '+1%_strenght',
+			'results'       : '+1%_strenght',
+			'strength'    : '1000000000',
+			'icon'        : 'upgrade.png',
+			'again'       : false,
+			'bought'      : false,
+
+		},
+		]
+	},
+	{
+		'name'        : 'Nutritionniste',
+		'description' : '',
+		'strength'	  : 1100,
+		'fame'        : 0,
+		'level'       : 0,
+		'results'     : 'click_value',
+		'icon'        : 'halteres.png',
+		'again'       : true,
+		'bought'      : false,
+		'upgrade'     : [
+		{
+			'name'        : 'Barre d\'énergie',
+			'description' : 'Prenez une barre d\'énergie pour refaire le plein de force !',
+			'results'       : '+1_strenght',
+			'strength'    : '11000',
+			'icon'        : 'upgrade.png',
+			'again'       : true,
+			'bought'      : false
+		},
+		{
+			'name'        : 'Protéine',
+			'description' : 'La protéine va vous aidez à augmenter votre force !',
+			'results'       : '*2_nutritionniste',
+			'strength'    : '1000000000',
+			'icon'        : 'upgrade.png',
+			'again'       : false,
+			'bought'      : false,
+
+		},
+	{
+		'name'        : 'Nutritionniste',
+		'description' : '',
+		'strength'	  : 1100,
+		'fame'        : 0,
+		'level'       : 0,
+		'results'     : 'click_value',
+		'icon'        : 'halteres.png',
+		'again'       : true,
+		'bought'      : false,
+		'upgrade'     : [
+		{
+			'name'        : 'Barre d\'énergie',
+			'description' : 'Prenez une barre d\'énergie pour refaire le plein de force !',
+			'results'       : '+1_strenght',
+			'strength'    : '11000',
+			'icon'        : 'upgrade.png',
+			'again'       : true,
+			'bought'      : false
+		},
+		{
+			'name'        : 'Protéines',
+			'description' : 'La protéine va vous aidez à augmenter votre force !',
+			'results'       : '*2_nutritionniste',
 			'strength'    : '1000000000',
 			'icon'        : 'upgrade.png',
 			'again'       : false,
