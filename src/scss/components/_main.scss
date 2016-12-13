@@ -1,9 +1,9 @@
 .landing_screen
 {
-	background: #FE4E42;
+	background: $main-color;
 	width: 100vw;
 	height: 100vh;
-	position: absolute;
+	position: fixed;
 	top: 0;
 	left: 0;
 	text-align: center;
@@ -12,17 +12,67 @@
 	will-change: transform;
 	transform: translateY(0vh);
 	transition: transform 0.5s ease;
+	position: relative;
+	box-sizing: border-box;
+	z-index: 2;
+
+	.logo
+	{
+		font-family: $heading-font;
+		font-size: 24px;
+		width: 300px;
+		text-align: center;
+		text-transform: uppercase;
+		position: absolute;
+		top: 50px;
+		left: calc(50% - 150px);
+	}
+
+	.hero-title
+	{
+		position: absolute;
+		bottom: 200px;
+		left: 200px;
+		font-size: 90px;
+		text-transform: uppercase;
+		text-align: left;
+		line-height: 85px;
+		font-family: $heading-font;
+	}
 
 	.play_button
 	{
-		border-radius: 20px;
 		border: none;
-		background: #4BABEB;
+		background: $second-color;
 		color: #fff;
 		text-transform: uppercase;
-		padding: 10px 15px;
-		width: 100px;
+		width: 200px;
+		height: 75px;
 		outline: none;
+		font-weight: 700;
+		font-size: 24px;
+		position: absolute;
+		top: calc(50% - 37.5px);
+		right: 200px;
+	}
+
+	.description
+	{
+		font-weight: 700;
+		font-size: 18px;
+		position: absolute;
+		left: 200px;
+		bottom: 120px;
+	}
+
+	.line-blue
+	{
+		position: absolute;
+		bottom: 200px;
+		left: 200px;
+		width: 100px;
+		height: 5px;
+		background: $second-color;
 	}
 }
 
@@ -31,9 +81,150 @@
 	transform: translateY(-100vh);
 }
 
-.click_button
+.game-interface
 {
-	width:200px;
-	height: 200px;
-	background: #FE4E42;
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100vh;
+	width: 100vw;
+
+	.click-area
+	{
+		width: calc(100vw - 400px);
+		height: 100vh;
+		background: #1b435d;
+		position: relative;
+		color: #fff;
+		font-family: $main-font;
+		font-weight: 700;
+
+		.click_button
+		{
+			width:200px;
+			height: 200px;
+			background: $second-color;
+			border-radius: 100%;
+			outline: none;
+			position: absolute;
+			top: calc(50% - 100px);
+			left: calc(50% - 100px);
+		}
+
+		.score-display
+		{
+			position: absolute;
+			top: 20px;
+			width: 500px;
+			left: calc(50% - 250px);
+			vertical-align: middle;
+			text-align: center;
+
+			img
+			{
+				width: 30px;
+				height: 30px;
+				margin: 10px 20px;
+			}
+
+			p
+			{
+				line-height: 30px;
+				vertical-align: middle;
+				display: inline-block;
+				margin: 0;
+			}
+
+			.separator-score
+			{
+				height: 50px;
+				margin: 0 20px;
+				width: 3px;
+				background: $second-color;
+				display: inline-block;
+				vertical-align: bottom;
+			}
+		}
+	}
+
+	.amelioration
+	{
+		
+		background: $main-color;
+		position: absolute;
+		right: 0;
+		top: 0;
+		height: 100vh;
+		width: 400px;
+		color: #fff;
+		ul
+		{
+			
+			li
+			{
+				padding: 20px;
+				border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+				overflow: hidden;
+				position: relative;
+
+				.illustration
+				{
+					width: 80px;
+					height: 80px;
+				}
+
+				p
+				{
+					display: inline;
+					vertical-align: top;
+					text-transform: uppercase;
+					font-family: $heading-font;
+					font-size : 18px;
+					margin-left: 20px; 
+					line-height: 18px;
+				}
+
+				.level
+				{
+					font-family: $heading-font;
+					color: rgba(255, 255, 255, 0.1);
+					position: absolute;
+					right: 20px;
+					top: -50px;
+					font-size: 150px;
+				}
+
+				.buy-button
+				{
+					background: $second-color;
+					position: absolute;
+					bottom: 20px;
+					left: calc(50% - 50px);
+					width: 100px;
+					height: 50px;
+
+					p
+					{
+						display: block;
+						margin: 0;
+						font-size: 18px;
+					}
+
+					img
+					{
+						width: 13px;
+						height: 13px;
+					}
+
+					.value
+					{
+						font-family: $main-font;
+						font-weight: 700;
+						font-size: 13px;
+					}
+				}
+			}
+		}
+	}
 }
+
