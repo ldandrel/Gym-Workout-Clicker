@@ -9,6 +9,7 @@ var index 				 	   = {};
 	index.landing_button 	   = index.container.querySelector('.play_button');
 	index.amelioration_list    = index.container.querySelector('.amelioration-list');
 	index.amelioration_button  = [];
+	index.amelioration_li      = [];
 
 var character 		  	   = {};
 	character.force    	   = 0;
@@ -20,13 +21,13 @@ var character 		  	   = {};
 
 /******************
 
-Character / score
+Retrieve variables from local storage
 
 ******************/
 
 //get force
 character.force = localStorage.getItem('force');
-if (isNaN(character.force))
+if (isNaN(character.force) || character.force == null)
 	character.force = 0;
 else
 {
@@ -36,7 +37,7 @@ else
 
 //Get force per second
 character.force_second = localStorage.getItem('force_second');
-if (isNaN(character.force_second))
+if (isNaN(character.force_second) || character.force_second == null)
 	character.force_second = 0;
 else
 {
@@ -46,7 +47,7 @@ else
 
 //Get fame
 character.fame = localStorage.getItem('fame');
-if (isNaN(character.fame))
+if (isNaN(character.fame) || character.fame == null)
 	character.fame = 0;
 else
 {
@@ -56,7 +57,7 @@ else
 
 //Get fame per second
 character.fame_second = localStorage.getItem('fame_second');
-if (isNaN(character.fame_second))
+if (isNaN(character.fame_second) || character.fame_second == null)
 {
 	character.fame_second = 0;
 	change_score_value();
@@ -67,32 +68,11 @@ else
 	index.fame_second_display.innerHTML = character.fame_second;
 }
 
-//Change the value of the score
-function change_score_value () {
+/***************
 
-	index.force_display.innerHTML        = parseInt(character.force);
-	index.force_second_display.innerHTML = parseInt(character.force_second);
-	index.fame_display.innerHTML         = parseInt(character.fame);
-	index.fame_second_display.innerHTML  = parseInt(character.fame_second);
-}
-change_score_value ();
+Set variables in local storage
 
-//Change the value of the ameliorations
-function change_amelioration_value (index) {
-	
-	var to_change = document.querySelector('li.index-' + index),
-		to_change_value = to_change.querySelector('.value'),
-		to_change_level = to_change.querySelector('.level');
-
-	to_change_value.innerHTML = amelioration[index].value;
-	to_change_level.innerHTML = amelioration[index].level;
-
-	if (index == 0)
-		character.click_value = parseInt(amelioration[0].level);
-	else if (index == 1)
-		console.log(amelioration[1].level)
-		character.fame_second = parseInt(amelioration[1].level);
-}
+******************/
 
 //Sync the score every second
 setInterval(function () {
@@ -106,12 +86,34 @@ setInterval(function () {
 	localStorage.setItem('fame_second', character.fame_second);
 }, 1000);
 
+/**************
+
+Update Interface
+
+***************/
+
+//Change the value of the score in the score zone
+function change_score_value () {
+
+	index.force_display.innerHTML        = parseInt(character.force);
+	index.force_second_display.innerHTML = parseInt(character.force_second);
+	index.fame_display.innerHTML         = parseInt(character.fame);
+	index.fame_second_display.innerHTML  = parseInt(character.fame_second);
+}
+change_score_value ();
+
+/****************
+
+Change variables
+
+*****************/
+
 //Increase the fame and strength per minute
 setInterval(function () {
 
-	character.fame = parseInt(character.fame + character.fame_second);
+	character.fame = character.fame + (character.fame_second/10);
 	change_score_value();
-}, 100)
+}, 100);
 
 /********************
 
@@ -137,13 +139,19 @@ function display_ameliorations () {
 	for (var i = 0; i < amelioration.length; i++)
 	{
 		index.amelioration_list.innerHTML += '<li data-index="' + i + '" class="index-' + i + '"><img src="assets/img/amelio.jpg" alt="amelioration icon" class="illustration index-' + i + '"><p class="name index-' + i + '">' + amelioration[i].name + '</p><button class="buy-button index-' + i + '" data-index="' + i + '"><p>Buy</p><img src="assets/img/strength.png" alt="Strength Icon"><span class="value">' + amelioration[i].value + '</span></button><span class="level">' + amelioration[i].level + '</span></li>';
+		
 	}
 	add_event_buy ();
 }
-
 display_ameliorations ();
 
-//retrieve ameliorations to buy
+/****************
+
+amelioration buys
+
+******************/
+
+//Add the event on the button to click 
 function add_event_buy () {
 	for (var i = 0; i < amelioration.length; i++)
 	{
@@ -166,5 +174,26 @@ function add_event_buy () {
 				change_score_value();
 			}
 		});
+
+		//display if the amelioration is locked
+		index.amelioration_li[i] = index.container.querySelector('li.index-' + i);
+		if(index.amelioration[i].fame > character.fame )
+			index.amelioration_li[i].classList.add('locked');
 	}
+}
+
+//Change the value of the ameliorations
+function change_amelioration_value (index) {
+	
+	var to_change = document.querySelector('li.index-' + index),
+		to_change_value = to_change.querySelector('.value'),
+		to_change_level = to_change.querySelector('.level');
+
+	to_change_value.innerHTML = amelioration[index].value;
+	to_change_level.innerHTML = amelioration[index].level;
+
+	if (index == 0)
+		character.click_value = parseInt(amelioration[0].level);
+	else if (index == 1)
+		character.fame_second = parseInt(amelioration[1].level);
 }
