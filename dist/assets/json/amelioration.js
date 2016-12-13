@@ -8,7 +8,10 @@ amelioration = JSON.parse(amelioration);
 
 if (!amelioration)
 {
-	amelioration.page_1 = 
+	amelioration = {};
+
+	amelioration = 
+	[
 	[
 	{
 		'name'        : 'Haltères',
@@ -48,7 +51,7 @@ if (!amelioration)
 		'strength'	  : 100,
 		'fame'        : 0,
 		'level'       : 0,
-		'results'     : 'click_value',
+		'results'     : 'auto_click',
 		'icon'        : 'halteres.png',
 		'again'       : true,
 		'bought'      : false,
@@ -73,6 +76,7 @@ if (!amelioration)
 
 		},
 		]
-	},	
+	},
+	]	
 	];
 }

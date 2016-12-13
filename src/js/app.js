@@ -10,12 +10,15 @@ var index 				 	   = {};
 	index.amelioration_list    = index.container.querySelector('.amelioration-list');
 	index.amelioration_button  = [];
 
+		console.log('hey');
+
 var character 		  	   = {};
 	character.force    	   = 0;
 	character.force_second = 0;
 	character.fame   	   = 0;
 	character.fame_second  = 0;
-	character.click_value  = amelioration[0].level;
+	character.click_value  = amelioration[0][0].level;
+	character.page_amelio  = 0;
 
 
 /******************
@@ -45,7 +48,7 @@ else
 }
 
 //Get fame
-character.fame = localStorage.getItem('fame');
+character.fame = localStorage.getItem('fame'); 
 if (isNaN(character.fame))
 	character.fame = 0;
 else
@@ -84,14 +87,16 @@ function change_amelioration_value (index) {
 		to_change_value = to_change.querySelector('.value'),
 		to_change_level = to_change.querySelector('.level');
 
-	to_change_value.innerHTML = amelioration[index].value;
-	to_change_level.innerHTML = amelioration[index].level;
+	to_change_value.innerHTML = amelioration[character.page_amelio][index].strength;
+	to_change_level.innerHTML = amelioration[character.page_amelio][index].level;
+
+	console.log(amelioration[character.page_amelio][index])
 
 	if (index == 0)
-		character.click_value = parseInt(amelioration[0].level);
+		character.click_value = parseInt(amelioration[character.page_amelio][0].level);
 	else if (index == 1)
-		console.log(amelioration[1].level)
-		character.fame_second = parseInt(amelioration[1].level);
+		console.log(amelioration[character.page_amelio][1].level)
+		character.fame_second = parseInt(amelioration[character.page_amelio][1].level);
 }
 
 //Sync the score every second
@@ -134,9 +139,9 @@ index.landing_button.addEventListener('click', function () {
 
 //Display ameliorations
 function display_ameliorations () {
-	for (var i = 0; i < amelioration.length; i++)
+	for (var i = 0; i < amelioration[character.page_amelio].length; i++)
 	{
-		index.amelioration_list.innerHTML += '<li data-index="' + i + '" class="index-' + i + '"><img src="assets/img/amelio.jpg" alt="amelioration icon" class="illustration index-' + i + '"><p class="name index-' + i + '">' + amelioration[i].name + '</p><button class="buy-button index-' + i + '" data-index="' + i + '"><p>Buy</p><img src="assets/img/strength.png" alt="Strength Icon"><span class="value">' + amelioration[i].value + '</span></button><span class="level">' + amelioration[i].level + '</span></li>';
+		index.amelioration_list.innerHTML += '<li data-index="' + i + '" class="index-' + i + '"><img src="assets/img/amelio.jpg" alt="amelioration icon" class="illustration index-' + i + '"><p class="name index-' + i + '">' + amelioration[character.page_amelio][i].name + '</p><button class="buy-button index-' + i + '" data-index="' + i + '"><p>Buy</p><img src="assets/img/strength.png" alt="Strength Icon"><span class="value">' + amelioration[character.page_amelio][i].strength + '</span></button><span class="level">' + amelioration[character.page_amelio][i].level + '</span></li>';
 	}
 	add_event_buy ();
 }
@@ -151,17 +156,17 @@ function add_event_buy () {
 
 		index.amelioration_button[i].addEventListener('click', function () {
 			var index    = this.getAttribute('data-index'),
-				price    = amelioration[index].value;
+				price    = amelioration[character.page_amelio][index].strength;
 
-			if (character.fame <  amelioration[index].fame)
+			if (character.fame <  amelioration[character.page_amelio][index].fame)
 				alert ('you are not famous enough');
-			else if (character.force <  amelioration[index].value)
+			else if (character.force <  amelioration[character.page_amelio][index].strength)
 				alert('You have not enought strength to purchase that');
 			else
 			{
-				character.force = character.force - amelioration[index].value;
-				amelioration[index].level++;
-				amelioration[index].value = amelioration[index].value + (amelioration[index].level)*2;
+				character.force = character.force - amelioration[character.page_amelio][index].strength;
+				amelioration[character.page_amelio][index].level++;
+				amelioration[character.page_amelio][index].strength = amelioration[character.page_amelio][index].strength + (amelioration[character.page_amelio][index].level)*2;
 				change_amelioration_value(index);
 				change_score_value();
 			}
