@@ -77,7 +77,6 @@ amelioration_base =
 					'icon'        : 'upgrade.png',
 					'again'       : false,
 					'bought'      : false,
-
 				},
 			]
 		},

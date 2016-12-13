@@ -111,7 +111,7 @@
 		width: calc(100vw - 400px);
 		height: 100vh;
 		background: url(../img/decor_1.jpg);
-		background-size:auto 100vh;
+		background-size:calc(100vw - 400px) auto;
 		background-position: center;
 		position: relative;
 		color: #fff;
@@ -120,15 +120,28 @@
 
 		.click_button
 		{
-			width:200px;
-			height: 200px;
-			background: $second-color;
+			width:500px;
+			height: 500px;
 			border-radius: 100%;
 			outline: none;
 			position: absolute;
-			top: calc(50% - 100px);
-			left: calc(50% - 100px);
+			bottom: 10px;
+			left: calc(50% - 250px);
+
+			img
+			{
+				width: 100%;
+				height: auto;
+				position: absolute;
+				top: 0;
+				left: 0;
+			}
 		}
+
+		.img-1 .image-1{opacity: 0;}
+		.img-1 .image-2{opacity: 1;}
+		.img-2 .image-1{opacity: 1;}
+		.img-2 .image-2{opacity: 0;}
 
 		.score-display
 		{
@@ -234,6 +247,46 @@
 					right: 20px;
 					top: -50px;
 					font-size: 150px;
+				}
+
+				.upgrades
+				{
+					position: absolute;
+					right: 20px;
+					top: 20px;
+					width: 100px;
+
+					.upgrade
+					{
+						background: $second-color;
+						color: #fff;
+						text-transform: uppercase;
+						font-weight: 700;
+						box-sizing: border-box;
+						padding: 5px;
+						cursor: pointer;
+						position: relative;
+
+						.bought
+						{
+							position: absolute;
+							width: 100%;
+							height: 100%;
+							top: 0;
+							left: 0;
+							background:yellow;
+							z-index: -1;
+						}
+					}
+
+					.already-bought .bought
+					{
+						z-index: 2;
+					}
+
+					.index-0{
+						margin-bottom: 20px;
+					}
 				}
 
 				.buy-button
