@@ -11,23 +11,31 @@
         <link rel="icon" type="image/png" href="assets/img/favicons/favicon-32x32.png" sizes="32x32">
         <link rel="icon" type="image/png" href="assets/img/favicons/favicon-16x16.png" sizes="16x16">
         
-        <link href="https://fonts.googleapis.com/css?family=Anton|Open+Sans:400,700" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:700|Raleway:700,900" rel="stylesheet">
         <link href="assets/css/app.min.css" rel="stylesheet" type="text/css" />
     </head>
 
     <body>
 
         <div class="landing_screen">
-            <div class="logo">Gym Workout Clicker</div>
-            <h1 class="hero-title">Become <br>the <br>strongest</h1>
-            <span class="line-blue"></span>
-            <p class="description">The most addicting game about click and workout</p>
+            <div class="logo">
+                <p class="gym">Gym</p>
+                <p class="workout">Workout</p>
+                <p class="clicker">Clicker</p>
+            </div>
+            <p class="description">Deviens une célébrité grâce à ton corps de rêve et tes doigts de fée</p>
             <button class="play_button">Play</button>
         </div>
 
         <div class="mouse-hover-description"></div>
 
         <div class="game-interface">
+            <div class="notifications">
+                <div class="first-click-notif notif">
+                    <p>Click sur ton personnage pour commencer à te muscler !</p>
+                    <img src="assets/img/exclamation.png" alt="Exclamation point (notif)">
+                </div>
+            </div>
             <div class="click-area">
                 <button class="click_button img-1">
                     <img src="assets/img/woman_beginner.png" alt="Woman sporty" class="image-1">
@@ -35,18 +43,32 @@
                 </button>
                 <div class="score-display">
                     <div class="fame">
-                        <p class="fame_display"><span>0</span>subs</p>
-                        <p class="fame_second_display per_second"><span>0</span>subs/s</p>
+                        <img src="assets/img/fame.svg" alt="Fame icon">
+                        <p class="fame_display"><span>0</span> subs</p>
+                        <p class="fame_second_display per_second"><span>0</span> subs/s</p>
+                        <div class="xp-bar">
+                            <div class="progress-xp-bar"></div>
+                        </div>
+                        <p class="fame_level">Lvl. <span>0</span></p>
                     </div>
-                    <img src="assets/img/fame.png" alt="Strength icon">
-                    <div class="separator-score"></div>
-                    <img src="assets/img/strength.png" alt="Fame icon">
                     <div class="force">
-                        <p class="force_display"><span>0</span>pt</p>
-                        <p class="force_second_display per_second"><span>0</span>pt/s</p>
+                        <div class="force-div">
+                            <img src="assets/img/strength.png" alt="Strength icon">
+                            <p class="force_display"><span>0</span> pt</p>
+                        </div>
+                        
+                        <div class="force-second-div">
+                            <p class="force_second_display per_second"><span>0</span> pt/s</p>
+                        </div>
                     </div>
                     <p class="click_value_display"><span>0</span>pt/click</p>
                 </div>
+            </div>
+            <h2 class="amelioration-title">Améliorations !</h2>
+            <div class="choose-amelioration-panel">
+                <div class="force-panel panel">Force</div>
+                <div class="fame-panel panel">Fame</div>
+                <div class="both-panel panel">Both</div>
             </div>
             <div class="amelioration">
                 <ul class="amelioration-list"></ul>

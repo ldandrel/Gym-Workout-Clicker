@@ -24,6 +24,9 @@ var character 		  	   = {};
 	character.click_value  = 1;
 	character.page_amelio  = 0;
 
+var notif       = {};
+	notif.first = index.container.querySelector('.first-click-notif');
+
 /*******************
 
 Options
@@ -198,12 +201,9 @@ function convert_number( value )
 	// Unit not found
 	else
 	{
-		return value;
+		return parseInt(value);
 	}
 }
-
-
-
 
 //Change the value of the score
 function change_score_value () {
@@ -288,11 +288,32 @@ setInterval(function () {
 	change_score_value();
 }, 100)
 
+/*******************
+
+Notifications
+
+********************/
+//check and display if there is any notification to display
+function check_notif () {
+
+	requestAnimationFrame(check_notif);
+
+	if (character.force != 0)
+		notif.first.style.display = 'none';
+}
+check_notif ();
+
 /********************
 
 Interface interactions
 
 ********************/
+
+//On the landing section make text appear
+setTimeout(function () {
+	index.landing.classList.add('beginning');
+}, 300);
+
 
 //on click on the click zone increment score
 index.button.addEventListener('click', function() {
@@ -426,7 +447,7 @@ function add_event_buy () {
 			{
 				character.force = character.force - price;
 				amelioration[character.page_amelio][index].level++;
-				amelioration[character.page_amelio][index].strength = parseInt(price * 1.5 + (amelioration[character.page_amelio][index].value * amelioration[character.page_amelio][index].level)*4);
+				amelioration[character.page_amelio][index].strength = parseInt(Math.pow(price, 1.15));
 				change_amelioration_value(index);
 				change_score_value();
 			}
