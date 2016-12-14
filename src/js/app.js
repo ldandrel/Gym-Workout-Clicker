@@ -112,14 +112,107 @@ else
 	index.fame_second_display.innerHTML = character.fame_second;
 }
 
+//Convert number (million, milliard, billion...)
+function convert_number( value )
+{
+	// Possible units
+	var units = [
+		{
+			value   :  Math.pow(10, 6),
+			singular: 'million',
+			plural  : 'millions'
+		},
+		{
+			value   : Math.pow(10, 9),
+			singular: 'milliard',
+			plural  : 'milliards'
+		},
+		{
+			value   : Math.pow(10, 12),
+			singular: 'billion',
+			plural  : 'billions'
+		},
+		{
+			value   : Math.pow(10, 15),
+			singular: 'billiard',
+			plural  : 'billiards'
+		},
+		{
+			value   : Math.pow(10, 18),
+			singular: 'trillion',
+			plural  : 'trillions'
+		},
+		{
+			value   : Math.pow(10, 24),
+			singular: 'quatrillion',
+			plural  : 'quatrillions'
+		},
+		{
+			value   : Math.pow(10, 30),
+			singular: 'quintillion',
+			plural  : 'quintillions'
+		},
+		{
+			value   : Math.pow(10, 36),
+			singular: 'sextillion',
+			plural  : 'sextillions'
+		},
+		{
+			value   : Math.pow(10, 42),
+			singular: 'septillion',
+			plural  : 'Septillions'
+		},
+
+	]
+
+	// Specific unit
+	var unit = null
+
+	for( var i = 0; i < units.length; i++ )
+	{
+		var _unit = units[i]
+
+		if( value > _unit.value )
+			unit = _unit;
+	}
+
+	// Unit found
+	if( unit )
+	{
+		// Rounded value
+		var round_value = Math.floor( value / unit.value ),
+			rest_value  = Math.floor( value / ( unit.value / 1000 ) - round_value * 1000 )
+
+
+
+		var text_value = null;
+
+		if( round_value === 1 )
+			text_value = round_value + ',' + rest_value + ' ' + unit.singular;
+		else
+			text_value = round_value + ',' + rest_value + ' ' + unit.plural;
+
+		return text_value;
+	}
+
+	// Unit not found
+	else
+	{
+		return value;
+	}
+}
+
+
+
+
 //Change the value of the score
 function change_score_value () {
 
-	index.force_display.innerHTML        = parseInt(character.force);
-	index.force_second_display.innerHTML = parseInt(character.force_second * 10);
-	index.fame_display.innerHTML         = parseInt(character.fame);
-	index.fame_second_display.innerHTML  = parseInt(character.fame_second);
-	index.click_value_display.innerHTML  = parseInt(character.click_value);
+	index.force_display.innerHTML        = convert_number(character.force);
+	index.force_second_display.innerHTML = convert_number(character.force_second * 10);
+	index.fame_display.innerHTML         = convert_number(character.fame);
+	index.fame_second_display.innerHTML  = convert_number(character.fame_second);
+	index.click_value_display.innerHTML  = convert_number(character.click_value);
 }
 change_score_value ();
 
@@ -218,6 +311,7 @@ index.button.addEventListener('click', function() {
 			index.button.classList.remove('img-2');
 		}
 });
+
 
 //Make the description panel follow the mouse
 document.addEventListener('mouseover', function (event) {
@@ -365,8 +459,6 @@ function add_event_buy () {
 						change_score_value();
 					}
 				}
-
-
 			});
 		}
 	}
