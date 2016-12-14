@@ -259,11 +259,12 @@ function panel_appear () {
 
     			index.panel_desc.style.opacity = 1;
 
-    			var index1 		= this.getAttribute('data-index'),
-					description = amelioration[character.page_amelio][index1].description,
-					name        = amelioration[character.page_amelio][index1].name,
-					value       = amelioration[character.page_amelio][index1].value,
-					results     = amelioration[character.page_amelio][index1].results;
+    			var index2 		= this.getAttribute('data-index'),
+    				index1 		= this.getAttribute('data-former'),
+					description = amelioration[character.page_amelio][index1].upgrade[index2].description,
+					name        = amelioration[character.page_amelio][index1].upgrade[index2].name,
+					value       = amelioration[character.page_amelio][index1].upgrade[index2].value,
+					results     = amelioration[character.page_amelio][index1].upgrade[index2].results;
 
 				index.panel_desc.innerHTML = '<p>Description : ' + description +'</p><p> Chaque <strong>' + name +'</strong> vous donne <strong>+' + value + '</strong> dans votre <strong>' + results + '</strong>';
     		});
@@ -331,7 +332,7 @@ function add_event_buy () {
 			{
 				character.force = character.force - price;
 				amelioration[character.page_amelio][index].level++;
-				amelioration[character.page_amelio][index].strength = parseInt(price * 1.1 + (amelioration[character.page_amelio][index].level)*1.5);
+				amelioration[character.page_amelio][index].strength = parseInt(price * 1.5 + (amelioration[character.page_amelio][index].value * amelioration[character.page_amelio][index].level)*4);
 				change_amelioration_value(index);
 				change_score_value();
 			}

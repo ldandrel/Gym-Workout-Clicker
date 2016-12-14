@@ -20,7 +20,7 @@ var amelioration_base =
 			'icon'        : 'halteres.svg',
 			'again'       : true,
 			'bought'      : false,
-			'description' : "L'instrument de base de la musculation",
+			'description' : "L'instrument de base pour devenir un vrai champion de la musculation",
 			'upgrade'     :
 			[
 				{

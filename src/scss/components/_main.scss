@@ -162,9 +162,10 @@
 		.score-display
 		{
 			position: absolute;
-			top: 20px;
-			width: 500px;
-			left: calc(50% - 250px);
+			top: 0px;
+			left: 0;
+			width: 100vw;
+			height: 100px;
 			vertical-align: middle;
 			text-align: center;
 
@@ -183,6 +184,8 @@
 				margin: 0;
 			}
 
+
+
 			.separator-score
 			{
 				height: 50px;
@@ -197,11 +200,10 @@
 
 	.amelioration
 	{
-		
 		background: $main-color;
 		position: absolute;
 		right: 0;
-		top: 0;
+		top: 100px;
 		bottom: 0;
 		width: 400px;
 		color: #fff;
