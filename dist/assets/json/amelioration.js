@@ -11,7 +11,7 @@ var amelioration_base =
 	[
 		{
 			'name'        : 'Haltères',
-			'description' : '',
+		    'description' : 'L\'instrument de base pour devenir un vrai champion de la musculation',
 			'strength'	  : 15,
 			'fame'        : 0,
 			'value'		  : 1,
@@ -20,7 +20,6 @@ var amelioration_base =
 			'icon'        : 'halteres.svg',
 			'again'       : true,
 			'bought'      : false,
-			'description' : "L'instrument de base pour devenir un vrai champion de la musculation",
 			'upgrade'     :
 			[
 				{
@@ -47,6 +46,7 @@ var amelioration_base =
 		},
 		{
 			'name'        : 'Équipements',
+			'description' : 'Il est peut etre temps d\'améliorer ton matos',
 			'description' : '',
 			'strength'	  : 100,
 			'fame'        : 0,
@@ -56,7 +56,6 @@ var amelioration_base =
 			'icon'        : 'equipements.svg',
 			'again'       : true,
 			'bought'      : false,
-			'description' : "Il est peut etre temps d'améliorer ton matos",
 			'upgrade'     :
 			[
 				{
@@ -83,7 +82,7 @@ var amelioration_base =
 		},
 		{
 			'name'        : 'Coach',
-			'description' : '',
+			'description' : 'Emploie un coach pour t\'aider à te motiver et devenir plus fort',
 			'strength'	  : 500,
 			'fame'        : 0,
 			'value'		  : 1,
@@ -119,7 +118,7 @@ var amelioration_base =
 		},
 		{
 			'name'        : 'Nutritionniste',
-			'description' : '',
+			'description' : 'Suis un nutritionniste pour adopter le bon régime alimentaire',
 			'strength'	  : 1100,
 			'fame'        : 0,
 			'value'		  : 0.5,
@@ -154,7 +153,7 @@ var amelioration_base =
 		},
 		{
 			'name'        : 'Kiné',
-			'description' : '',
+			'description' : 'Vois un kiné pour réparer et repartir pour être plus fort',
 			'strength'	  : 2000,
 			'fame'        : 0,
 			'value'		  : 1,
@@ -189,7 +188,7 @@ var amelioration_base =
 		},
 		{
 			'name'        : 'Dopage',
-			'description' : '',
+			'description' : 'Dopez-vous pour être plus fort, mais attention au conséquence !',
 			'strength'	  : 2000,
 			'fame'        : 0,
 			'value'		  : 1,
@@ -224,7 +223,7 @@ var amelioration_base =
 		},
 		{
 			'name'        : 'Modification génétique',
-			'description' : '',
+			'description' : 'Ayez recours à la dernière technologie de modification génétique',
 			'strength'	  : 2000,
 			'fame'        : 0,
 			'value'		  : 1,
@@ -262,7 +261,7 @@ var amelioration_base =
 	[
 		{
 			'name'        : 'Réseau social',
-			'description' : '',
+			'description' : 'Inscrivez-vous sur les réseaux sociaux pour vous faire connaitre',
 			'strength'	  : 15,
 			'fame'        : 1000,
 			'value'		  : 1,
@@ -298,7 +297,7 @@ var amelioration_base =
 		},
 		{
 			'name'        : 'Stars',
-			'description' : '',
+			'description' : 'Rencontrer des stars pour devenir comme eux',
 			'strength'	  : 100,
 			'fame'        : 5000,
 			'value'		  : 0.1,
@@ -334,7 +333,7 @@ var amelioration_base =
 		},
 		{
 			'name'        : 'Esthétique',
-			'description' : '',
+			'description' : 'Recourir à la chirurgie esthétique permet d\'être plus beau et donc plus célébre',
 			'strength'	  : 500,
 			'fame'        : 1000,
 			'value'		  : 1,
@@ -370,7 +369,7 @@ var amelioration_base =
 		},
 		{
 			'name'        : 'Devenez célébre',
-			'description' : '',
+			'description' : 'Certains chose vous ferons devenir célébre',
 			'strength'	  : 1100,
 			'fame'        : 0,
 			'value'		  : 0.5,
@@ -404,14 +403,14 @@ var amelioration_base =
 			]
 		},
 		{
-			'name'        : 'Show',
-			'description' : '',
+			'name'        : 'Concours',
+			'description' : 'Participez à des concours ou des conventions',
 			'strength'	  : 2000,
 			'fame'        : 0,
 			'value'		  : 1,
 			'level'       : 0,
 			'results'     : 'click_value',
-			'icon'        : 'show.svg',
+			'icon'        : 'concours.svg',
 			'again'       : true,
 			'bought'      : false,
 			'upgrade'     :
@@ -440,7 +439,7 @@ var amelioration_base =
 		},
 		{
 			'name'        : 'Médias',
-			'description' : '',
+			'description' : 'Les médias accroîtront vos followers',
 			'strength'	  : 2000,
 			'fame'        : 0,
 			'value'		  : 1,
@@ -475,7 +474,7 @@ var amelioration_base =
 		},
 		{
 			'name'        : 'Poser nu',
-			'description' : '',
+			'description' : 'C\'est bien, les gens qui posent nu deviennent célébre',
 			'strength'	  : 2000,
 			'fame'        : 0,
 			'value'		  : 1,
