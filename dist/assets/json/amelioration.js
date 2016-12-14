@@ -6,7 +6,7 @@ Variables
 var amelioration = localStorage.getItem('amelioration');
 amelioration = JSON.parse(amelioration);
 
-amelioration_base = 
+var amelioration_base = 
 [
 	[
 		{
@@ -20,6 +20,7 @@ amelioration_base =
 			'icon'        : 'halteres.png',
 			'again'       : true,
 			'bought'      : false,
+			'description' : "L'instrument de base de la musculation",
 			'upgrade'     :
 			[
 				{
@@ -41,7 +42,6 @@ amelioration_base =
 					'icon'        : 'upgrade.png',
 					'again'       : true,
 					'bought'      : false,
-
 				},
 			]
 		},
@@ -56,6 +56,7 @@ amelioration_base =
 			'icon'        : 'equipements.png',
 			'again'       : true,
 			'bought'      : false,
+			'description' : "Il est peut etre temps d'améliorer ton matos",
 			'upgrade'     :
 			[
 				{
