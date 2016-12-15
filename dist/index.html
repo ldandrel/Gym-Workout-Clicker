@@ -27,6 +27,11 @@
             <button class="play_button">Play</button>
         </div>
 
+        <div class="choose-character">
+            <div class="female half-character" data-index="0"><span>female</span><img src="" alt=""></div>
+            <div class="male half-character" data-index="1"><span>male</span></div>
+        </div>
+
         <div class="mouse-hover-description"></div>
 
         <div class="game-interface">
@@ -40,6 +45,15 @@
                 <button class="click_button">
                     <img src="assets/img/animations/woman-2.png" alt="Woman sporty" class="image-1">
                 </button>
+                <div class="gym-choose open">
+                    <ul class="gym-list">
+                        <li class="gym-1" data-index="1">Street Gym</li>
+                        <li class="gym-2" data-index="2">Low-cost Fitness</li>
+                        <li class="gym-3" data-index="3">Fitness Land</li>
+                        <li class="gym-4" data-index="4">Space Station</li>
+                    </ul>
+                    <button class="gym-choose-button"></button>
+                </div>
                 <div class="score-display">
                     <div class="fame">
                         <img src="assets/img/fame.svg" alt="Fame icon">
@@ -60,7 +74,7 @@
                             <p class="force_second_display per_second"><span>0</span> pt/s</p>
                         </div>
                     </div>
-                    <p class="click_value_display"><span>0</span>pt/click</p>
+                    <p class="click_value_display"><span>0</span> pt/click</p>
                 </div>
             </div>
             <h2 class="amelioration-title">Améliorations !</h2>
@@ -79,6 +93,9 @@
                 </div>
             </div>
         </div>
+        
+        <audio src=""></audio>
+
         <script src="assets/json/amelioration.js"></script>
         <script src="assets/js/app.min.js"></script>
     </body>

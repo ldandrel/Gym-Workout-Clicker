@@ -1,5 +1,6 @@
 var index 				 	          = {};
 	index.container 	 	          = document.querySelector('body');
+	index.click_area				  = index.container.querySelector('.click-area');
 	index.button		 	          = index.container.querySelector('.click_button');
 	index.force_display  	          = index.container.querySelector('.force_display span');
 	index.force_second_display        = index.container.querySelector('.force_second_display span');
@@ -18,16 +19,22 @@ var index 				 	          = {};
 	index.amelioration_panels		  = index.container.querySelectorAll('.panel');
 	index.fame_level_display		  = index.container.querySelector('.fame_level span');
 	index.xp_bar					  = index.container.querySelector('.progress-xp-bar');
+	index.gym_choose				  = index.container.querySelector('.gym-choose');
+	index.gym_choose_button 		  = index.container.querySelector('.gym-choose-button');
+	index.gym_list			 		  = index.gym_choose.querySelector('.gym-list');
+	index.gym_list_all			 	  = index.gym_choose.querySelectorAll('.gym-list li');
+	index.sex_choose				  = index.container.querySelectorAll('.choose-character .half-character');
 
 var character 		  	   = {};
 	character.force    	   = 0;
+	character.sex          = 'male';
 	character.force_second = 0;
 	character.fame   	   = 0;
 	character.fame_second  = 0;
 	character.click_value  = 1;
 	character.page_amelio  = 0;
 	character.fame_level   = 0;
-	character.level_value  = [1000, 10000, 1000000]; 
+	character.level_value  = [1000, 10000, 100000, 1000000, 10000000]; 
 
 var notif       = {};
 	notif.first = index.container.querySelector('.first-click-notif');
@@ -37,6 +44,17 @@ var notif       = {};
 Options
 
 *******************/
+
+index.sex_choose[0].addEventListener('click', function () {
+
+
+});
+
+index.sex_choose[1].addEventListener('click', function () {
+
+
+});
+
 
 //make the option menu appear on click
 index.options_button.addEventListener('click', function () {
@@ -56,13 +74,11 @@ index.reset.addEventListener('click', function () {
 	character.fame_second  = 0;
 	character.click_value  = 1;
 	character.fame_level   = 0;
-	character.level_value  = [1000, 10000, 1000000]; 
+	character.level_value  = [1000, 10000, 100000]; 
 	amelioration = amelioration_base;
 	index.amelioration_list.innerHTML = '';
 	display_ameliorations();
 });
-
-
 
 /******************
 
@@ -183,7 +199,6 @@ function convert_number( value )
 			singular: 'septillion',
 			plural  : 'Septillions'
 		},
-
 	]
 
 	// Specific unit
@@ -227,17 +242,48 @@ function change_score_value () {
 	index.force_display.innerHTML        = convert_number(character.force);
 	index.force_second_display.innerHTML = convert_number(character.force_second * 10);
 	index.fame_display.innerHTML         = convert_number(character.fame);
-	index.fame_second_display.innerHTML  = convert_number(character.fame_second);
+	index.fame_second_display.innerHTML  = convert_number(character.fame_second * 10);
 	index.click_value_display.innerHTML  = convert_number(character.click_value);
 	index.fame_level_display.innerHTML   = convert_number(character.fame_level);
 
 	var ratio = character.fame/character.level_value[character.fame_level];
-	index.xp_bar.style.transform = 'translateX(-20%) skew(-30deg) scaleX('+ ratio +')';
+	index.xp_bar.style.transform = 'translateX(0%) skew(-30deg) scaleX('+ (ratio * 0.75) +')';
 
 	if (ratio >= 1)
 		character.fame_level++;
+
+	setTimeout(check_upgrade_available, 1000);
 }
 change_score_value ();
+
+function check_upgrade_available () {
+
+	if (character.page_amelio < 2)
+	{
+		for (var i = 0; i < amelioration[character.page_amelio].length; i++)
+		{
+			if (amelioration[character.page_amelio][i].upgrade[0].strength < character.force)
+			{
+				var upgrade = document.querySelector('li.index-'+ i +' .upgrades .index-0');
+				upgrade.style.background = 'url(assets/img/badges/argent.svg)';
+			} else
+			{
+				var upgrade = document.querySelector('li.index-'+ i +' .upgrades .index-0');
+				upgrade.style.background = 'url(assets/img/badges/argent_lock.svg)';
+			}
+
+			if (amelioration[character.page_amelio][i].upgrade[1].strength < character.force)
+			{
+				var upgrade = document.querySelector('li.index-'+ i +' .upgrades .index-1');
+				upgrade.style.background = 'url(assets/img/badges/or.svg)';
+			} else
+			{
+				var upgrade = document.querySelector('li.index-'+ i +' .upgrades .index-1');
+				upgrade.style.background = 'url(assets/img/badges/or_lock.svg)';
+			}
+		}
+	}
+}
 
 //Change the amelioration panels
 for (var i = 0; i < index.amelioration_panels.length; i++)
@@ -341,7 +387,7 @@ setInterval(function () {
 //Increase the fame and strength per second
 setInterval(function () {
 
-	character.fame = parseInt(character.fame) + character.fame_second;
+	character.fame = parseFloat(character.fame) + character.fame_second;
 	character.force = parseFloat(character.force) + character.force_second;
 	change_score_value();
 }, 100)
@@ -368,6 +414,37 @@ Interface interactions
 
 ********************/
 
+//Choose your level
+index.gym_choose_button.addEventListener('click', function () {
+	
+	if (index.gym_choose.classList.contains('open'))
+	{
+		index.gym_choose.classList.add('close');
+		index.gym_choose.classList.remove('open');
+	}
+	else if (index.gym_choose.classList.contains('close'))
+	{
+		index.gym_choose.classList.add('open');
+		index.gym_choose.classList.remove('close');
+	}
+});
+
+function change_gym () {
+
+	for (var i = 0; i < index.gym_list_all.length; i++)
+	{
+		index.gym_list_all[i].addEventListener('click', function () {
+			var data_index = this.getAttribute('data-index');
+			index.click_area.style.background = 'url(assets/img/decor_'+ data_index +'.jpg)';
+			index.click_area.style.backgroundSize = '100% auto';
+			index.click_area.style.backgroundPosition = 'center';
+		});
+	}
+}
+change_gym();
+
+index.click_area.style.backgroundSize = '100% auto';
+
 //On the landing section make text appear
 setTimeout(function () {
 	index.landing.classList.add('beginning');
@@ -384,12 +461,8 @@ index.button.addEventListener('click', function() {
 	    var audio = new Audio('assets/audio/clic.mp3');
 		audio.play();
 
-		var image = index.button.querySelector('img')
+		var image = index.button.querySelector('img');
 	    image.src="assets/img/animations/woman-2_anim.gif";
-
-			
-
-		
 });
 
 //Make the description panel appear and fill on hover
@@ -464,8 +537,11 @@ function panel_appear () {
 index.landing_button.addEventListener('click', function () {
 
 	index.container.classList.add('hide_landing');
+	index.container.classList.add('choose_character');
 });
 
+if (character.force != 0)
+	index.container.classList.add('hide_landing');
 
 //Display ameliorations
 function display_ameliorations () {
