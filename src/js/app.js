@@ -512,19 +512,18 @@ index.button.addEventListener('click', function() {
 	character.force = parseFloat(character.force) + parseFloat(character.click_value);
 	change_score_value();
 
-
-    var audio = new Audio('assets/audio/clic.mp3');
-	audio.play();
-
 	var image = index.button.querySelector('img'),
 		level = character.fame_level;
 
 	if (level > 2)
 		level = 2;
 
-	if (finished == true )
+	if (finished == true)
 	{
 		finished = false;
+
+		var audio = new Audio('assets/audio/clic.mp3');
+		audio.play();
 
     	image.src="assets/img/animations/"+ character.sex +"-"+ level +"_anim.gif";
 		setTimeout(function () {

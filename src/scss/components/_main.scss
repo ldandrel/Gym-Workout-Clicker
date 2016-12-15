@@ -49,38 +49,6 @@
 	opacity: 1 !important;
 }
 
-.choose-character
-{
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100vw;
-	height: 100vh;
-	background: $black-color;
-	transform: translateY(100vh);
-	will-change: transform;
-	transition: transform 0.5s ease;
-	z-index: 1000;
-	text-align: center;
-	padding: 200px;
-
-	.half-character
-	{
-		padding: 100px;
-		margin: 20px;
-		display: inline-block;
-		border-radius: 10px;
-		background: #fff;
-		color: #000;
-		cursor: pointer;
-	}
-}
-
-.choose_character .choose-character
-{
-	transform: translateY(0px);
-}
-
 .landing_screen
 {
 	background: $main-color;
@@ -152,13 +120,58 @@
 		will-change: opacity, transform;
 		transition: all 0.3s cubic-bezier(0.5, 0, 1, 0.5) 0.5s;
 		text-transform: uppercase;
-		color: 
+		color: $third-color;
+		font-weight: 900;
 	}
 }
 
 .hide_landing .landing_screen
 {
 	transform: translateY(-100vh);
+}
+
+.choose-character
+{
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	background: $main-color;
+	transform: translateY(100vh);
+	will-change: transform;
+	transition: transform 0.5s ease;
+	z-index: 1000;
+	text-align: center;
+	padding: 100px;
+	color: $second-color;
+
+	.half-character
+	{
+		padding: 100px;
+		margin: 20px;
+		display: inline-block;
+		border-radius: 10px;
+		background: #fff;
+		color: #000;
+		cursor: pointer;
+	}
+
+	h2
+	{
+		font-size: 40px;
+	}
+
+	.ou
+	{
+		text-transform: uppercase;
+		font-size: 24px
+	}
+}
+
+.choose_character .choose-character
+{
+	transform: translateY(0px);
 }
 
 .game-interface

@@ -29,7 +29,7 @@ var amelioration_base =
 					'value'		  : 2, 	
 					'strength'    : '100',
 					'icon'        : 'upgrade.svg',
-					'again'       : true,
+					'again'       : false,
 					'bought'      : false
 				},
 				{
@@ -39,7 +39,7 @@ var amelioration_base =
 					'value'		  : 4,
 					'strength'    : '500',
 					'icon'        : 'upgrade.svg',
-					'again'       : true,
+					'again'       : false,
 					'bought'      : false,
 				},
 			]
