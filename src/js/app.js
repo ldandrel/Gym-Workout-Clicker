@@ -555,7 +555,7 @@ function panel_appear () {
 				cout        = amelioration[character.page_amelio][index1].strength,
 				results     = amelioration[character.page_amelio][index1].results;
 
-			index.panel_desc.innerHTML = '<p>Description : ' + description +'</p><p> Chaque <strong>' + name +'</strong> vous donne <strong>+' + value + '</strong> dans votre <strong>' + results + '</strong><p>Cout : '+ cout +'<p>';
+			index.panel_desc.innerHTML = '<p>Description : ' + description +'</p><p> Chaque <strong>' + name +'</strong> vous donne <strong>+' + value + '</strong> dans votre <strong>' + results + '</strong><p>Coût : '+ convert_number(cout) +'<p>';
 		});
 
 		if (character.page_amelio < 2)
@@ -581,7 +581,7 @@ function panel_appear () {
 						cout        = amelioration[character.page_amelio][index1].upgrade[index2].strength,
 						results     = amelioration[character.page_amelio][index1].upgrade[index2].results;
 
-					index.panel_desc.innerHTML = '<p>Description : ' + description +'</p><p> Chaque <strong>' + name +'</strong> vous donne <strong>+' + value + '</strong> dans votre <strong>' + results + '</strong><p>Cout : '+ cout +'<p>';
+					index.panel_desc.innerHTML = '<p>Description : ' + description +'</p><p> Chaque <strong>' + name +'</strong> vous donne <strong>+' + value + '</strong> dans votre <strong>' + results + '</strong><p>Coût : '+ convert_number(cout) +'<p>';
 	    		});
 
 	    		up_button.addEventListener('mouseout', function () {
