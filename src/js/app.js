@@ -380,16 +380,13 @@ index.button.addEventListener('click', function() {
 		character.force = parseFloat(character.force) + parseFloat(character.click_value);
 		change_score_value();
 
-		if (index.button.classList.contains('img-1'))
-		{
-			index.button.classList.add('img-2');
-			index.button.classList.remove('img-1');
-		}
-		else
-		{
-			index.button.classList.add('img-1');
-			index.button.classList.remove('img-2');
-		}
+		var image = index.button.querySelector('img')
+	
+		
+			image.src="assets/img/animations/woman-1_anim.gif";
+			
+
+		
 });
 
 //Make the description panel appear and fill on hover
