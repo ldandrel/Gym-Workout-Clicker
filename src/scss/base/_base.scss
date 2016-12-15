@@ -25,12 +25,6 @@ h2 { font-size: 2.1rem; }
 
 h3 { font-size: 1.75rem; }
 
-h4 { font-size: 1.5rem; }
-
-h5 { font-size: 1.25rem; }
-
-h6 { font-size: 1rem; }
-
 p {
     font-size: 1em;
     line-height: 1.5;
@@ -74,4 +68,21 @@ button
     background: none;
     border: none;
     outline: none;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+    border-radius: 10px;
+    background: $main-color;
+}
+ 
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+    background: #193456; 
+    opacity: 0.2;
 }

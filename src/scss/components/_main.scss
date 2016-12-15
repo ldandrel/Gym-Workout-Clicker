@@ -1,20 +1,4 @@
-::-webkit-scrollbar {
-    width: 10px;
-}
-
-::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
-    border-radius: 10px;
-    background: $main-color;
-}
- 
-::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
-    background: #193456; 
-	opacity: 0.2;
-}
-
+//description panel
 .mouse-hover-description
 {
 	position: fixed;
@@ -27,10 +11,13 @@
 	border: $second-color solid 2px;
 	opacity: 0;
 	border-box: box-sizing;
+	border-radius: 5px;
 	padding: 10px;
 	color: #000;
+	font-size : 13px;
 }
 
+//animations on landing page
 .beginning .logo
 {
 	transform: scale(1) !important;
@@ -49,6 +36,7 @@
 	opacity: 1 !important;
 }
 
+//landing page
 .landing_screen
 {
 	background: $main-color;
@@ -104,6 +92,7 @@
 		opacity: 0;
 		transition: all 0.3s cubic-bezier(0.5, 0, 1, 0.5) 0.3s;
 		will-change: transform, opacity;
+		cursor: pointer;
 	}
 
 	.description
@@ -125,11 +114,13 @@
 	}
 }
 
+//hide landing pages
 .hide_landing .landing_screen
 {
 	transform: translateY(-100vh);
 }
 
+//choose character page
 .choose-character
 {
 	position: fixed;
@@ -174,6 +165,7 @@
 	transform: translateY(0px);
 }
 
+//Game interface
 .game-interface
 {
 	position: fixed;
@@ -182,6 +174,12 @@
 	height: 100vh;
 	width: 100vw;
 
+	.buy-burger
+	{
+		display: none;
+	}
+
+	//notifications
 	.notifications
 	{
 
@@ -233,7 +231,8 @@
 			}
 		}
 	}
-
+	
+	//Click area
 	.click-area
 	{
 		width: calc(100vw - 400px);
@@ -255,6 +254,7 @@
 			position: absolute;
 			bottom: 10px;
 			left: calc(50% - 150px);
+			cursor: pointer;
 
 			img
 			{
@@ -309,7 +309,8 @@
 			opacity: 1 !important;
 			z-index: 10 !important;
 		}
-
+		
+		//score area
 		.score-display
 		{
 			position: absolute;
@@ -368,8 +369,8 @@
 					font-weight: 700;
 					z-index: 10;
 					position: absolute;
-					top: 0px;
-					right: 50px;
+					top: 22.5px;
+					right: 70px;
 				}
 
 				.fame_display
@@ -424,6 +425,10 @@
 				p
 				{
 					font-size: 30px;
+					position: abolute;
+					top: 0;
+					vertical-align:top;
+					margin-top: 10px;
 				}
 			}
 
@@ -462,6 +467,7 @@
 		}
 	}
 
+	//amelioration area
 	.amelioration-title
 	{
 		font-weight: 900;
@@ -556,7 +562,7 @@
 					left: 0px;
 					width: calc(100% + 40px);
 					height: calc(100% + 40px);
-					background: rgba(0, 0, 0, 0.7);
+					background: rgba(0, 0, 0, 0.95);
 					z-index: 100;
 					box-sizing: border-box;
 					padding: 20px;
@@ -578,6 +584,7 @@
 					text-transform: uppercase;
 					font-family: $heading-font;
 					font-size : 24px;
+					line-height: 24px;
 					margin: 0px 0px 0px 20px;
 					font-weight: 900;
 					color: #000;
@@ -614,12 +621,21 @@
 						width: 30px;
 						height: 30px;
 						background-repeat: no-repeat;
+
+						img
+						{
+							position: absolute;
+							bottom: -5px;
+							right: -10px;
+							width: 25px;
+							height: 25px;
+							display: none;
+						}
 					}
 
 					.upgrade.index-0
 					{
 						background: url(../img/badges/argent_lock.svg);
-
 					}
 
 					.upgrade.index-1
@@ -627,9 +643,9 @@
 						background: url(../img/badges/or_lock.svg);
 					}
 
-					.already-bought .bought
+					.already-bought img
 					{
-						z-index: 2;
+						display: inline-block;
 					}
 
 					.index-0{
@@ -649,6 +665,7 @@
 					box-sizing: border-box;
 					padding-left: 120px;
 					padding-top: 60px;
+					cursor: pointer;
 
 					.value
 					{
@@ -665,7 +682,8 @@
 			}
 		}
 	}
-
+	
+	//option area
 	.options
 	{
 		position: absolute;
@@ -677,6 +695,7 @@
 		.options-button
 		{
 			z-index: 10;
+			cursor: pointer;
 		}
 
 		button.options-button img
@@ -703,6 +722,7 @@
 			opacity: 0;
 			transition: opacity 0.2s ease, transform 0.2s ease;
 			transform: translateY(50px);
+			cursor: pointer;
 		}
 	}
 
@@ -721,3 +741,30 @@
 	}
 }
 
+//responsiv
+@media only screen and (max-width: 950px)
+{
+	.left-part
+	{
+		transform: translateX(400px);
+	}
+
+	.game-interface .click-area
+	{
+		width: 100vw;
+	}
+
+	.buy-burger
+	{
+		display: inline-block !important;
+		position: absolute;
+		left: 20px;
+		top: 80px;
+		cursor: pointer;
+		z-index: 1000;
+
+		.hamburger-inner, .hamburger-inner:after, .hamburger-inner:before{
+			background: #fff;
+		}
+	}
+}

@@ -1,3 +1,9 @@
+/*
+ * Variables
+ */
+
+
+//Index is the object wich contains the DOM elements
 var index 				 	          = {};
 	index.container 	 	          = document.querySelector('body');
 	index.click_area				  = index.container.querySelector('.click-area');
@@ -26,6 +32,7 @@ var index 				 	          = {};
 	index.gym_list_all			 	  = index.gym_choose.querySelectorAll('.gym-list li');
 	index.sex_choose				  = index.container.querySelectorAll('.choose-character .half-character');
 
+//Character is the object containing the different specs of the player
 var character 		  	   = {};
 	character.force    	   = 0;
 	character.sex          = 'male';
@@ -35,147 +42,145 @@ var character 		  	   = {};
 	character.click_value  = 1;
 	character.page_amelio  = 0;
 	character.fame_level   = 0;
-	character.level_value  = [1000, 10000, 100000, 1000000, 10000000]; 
+	character.level_value  = [1000, 10000];
 
+//Notif contains all the notifications
 var notif       = {};
 	notif.first = index.container.querySelector('.first-click-notif');
 
-/*******************
-
-Options
-
-*******************/
-
+//finished prevent the animation to be spammed
 var finished = true;
 
+/*
+ * Choose the sex of the player
+ */
+
+//On click on the 'woman' button, make the player a woman
 index.sex_choose[0].addEventListener('click', function () {
 
 	character.sex = 'female';
+	localStorage.setItem('sex', character.sex);
+
 	index.container.classList.remove('choose_character');
-		localStorage.setItem('sex', character.sex);
 
-
-	var image = index.button.querySelector('img');
-
-	image.src="assets/img/animations/"+ character.sex +"-"+ level +"_anim.gif";
+	index.button_img.src="assets/img/animations/"+ character.sex +"-"+ character.fame_level +"_anim.gif";
 });
 
+//On click on the 'man' button, make the player a man
 index.sex_choose[1].addEventListener('click', function () {
 
 	character.sex = 'male';
-	index.container.classList.remove('choose_character');
 	localStorage.setItem('sex', character.sex);
 
-	var image = index.button.querySelector('img');
+	index.container.classList.remove('choose_character');
 
-	image.src="assets/img/animations/"+ character.sex +"-"+ level +"_anim.gif";
+	index.button_img.src="assets/img/animations/"+ character.sex +"-"+ character.fame_level +"_anim.gif";
 });
 
+/*
+ * Options section
+ */
 
-//make the option menu appear on click
+
+//make the option menu appear on click on the option button
 index.options_button.addEventListener('click', function () {
 
-if (index.options.classList.contains('visible'))
-	index.options.classList.remove('visible');
-else
-	index.options.classList.add('visible');
+	if (index.options.classList.contains('visible'))
+		index.options.classList.remove('visible');
+	else
+		index.options.classList.add('visible');
 });
 
-//Reset all properties
+//Reset all properties on click on the reset button
 index.reset.addEventListener('click', function () {
 	
-	character.force    	   = 0;
-	character.force_second = 0;
-	character.sex = 'male';
-	character.fame   	   = 0;
-	character.fame_second  = 0;
-	character.click_value  = 1;
-	character.fame_level   = 0;
-	character.level_value  = [1000, 10000]; 
-	amelioration = amelioration_base;
+	character.force    	   		      = 0;
+	character.force_second 		      = 0;
+	character.sex 		   		      = 'male';
+	character.fame   	   		      = 0;
+	character.fame_second  		      = 0;
+	character.click_value  		      = 1;
+	character.fame_level   		      = 0;
+	character.level_value  		      = [1000, 10000]; 
+	amelioration 		   		      = amelioration_base;
 	index.amelioration_list.innerHTML = '';
 	display_ameliorations();
 });
 
-/******************
+/*
+ *	Get all parameters of the character from the save on the localstorage
+ */
 
-Character / score
-
-******************/
-
-//Get force
+//Get force parameter
 character.force = localStorage.getItem('force');
-if (isNaN(character.force))
+
+if (isNaN(character.force) || !character.force)
 	character.force = 0;
 else
-{
 	character.force = parseFloat(character.force);
-}
+
 index.force_display.innerHTML = character.force;
 
-//Get force per second
+//Get force per second parameter
 character.force_second = localStorage.getItem('force_second');
-if (isNaN(character.force_second))
+
+if (isNaN(character.force_second) || !character.force_second)
 	character.force_second = 0;
 else
-{
 	character.force_second = parseFloat(character.force_second);
-}
+
 index.force_second_display.innerHTML = character.force_second;
 
-//Get click_value
+//Get the click value parameter
 character.click_value = localStorage.getItem('click_value');
-if (isNaN(character.click_value))
+
+if (isNaN(character.click_value) || !character.click_value)
 	character.click_value = 1;
 else
-{
 	character.click_value = parseInt(character.click_value);
-}
+
 index.click_value_display.innerHTML = character.click_value;
 
-//Get fame_level
+//Get the fame level parameter
 character.fame_level = localStorage.getItem('fame_level');
-if (isNaN(character.fame_level))
+
+if (isNaN(character.fame_level) || !character.fame_level)
 	character.fame_level = 0;
 else
-{
 	character.fame_level = parseInt(character.fame_level);
-}
+
 index.fame_level_display.innerHTML = character.fame_level;
 
-//Get fame
+//Get fame parameter
 character.fame = localStorage.getItem('fame'); 
-if (isNaN(character.fame))
+
+if (isNaN(character.fame) || !character.fame)
 	character.fame = 0;
 else
-{
 	character.fame = parseInt(character.fame);
-}
+
 index.fame_display.innerHTML = character.fame;
 
-//Get fame per second
+//Get fame per second parameter
 character.fame_second = localStorage.getItem('fame_second');
-if (isNaN(character.fame_second))
-{
+
+if (isNaN(character.fame_second) || !character.fame_second)
 	character.fame_second = 0;
-	change_score_value();
-}
 else
-{
 	character.fame_second = parseInt(character.fame_second);
-}
+
 index.fame_second_display.innerHTML = character.fame_second;
 
 //Get character sex
 character.sex = localStorage.getItem('sex');
+
 if (!character.sex)
 	character.sex = 'male';
-else
-{
-	
-}
 
-//Convert number (million, milliard, billion...)
+/*
+ * Convert number with sufixes (million, milliard, billion...)
+ */
+
 function convert_number( value )
 {
 	// Possible units
@@ -262,39 +267,115 @@ function convert_number( value )
 	}
 }
 
-//Change the value of the score
+/*
+ * Score managing functions
+ */
+
+//Change the value of the score every 0.1s
 function change_score_value () {
 
+	//score parameters
 	index.force_display.innerHTML        = convert_number(character.force);
 	index.force_second_display.innerHTML = convert_number(character.force_second * 10);
 	index.fame_display.innerHTML         = convert_number(character.fame);
 	index.fame_second_display.innerHTML  = convert_number(character.fame_second * 10);
 	index.click_value_display.innerHTML  = convert_number(character.click_value);
-	index.fame_level_display.innerHTML   = convert_number(character.fame_level);
+	index.fame_level_display.innerHTML   = convert_number(character.fame_level+1);
 
-	var ratio = character.fame/character.level_value[character.fame_level];
+	//make the fame bar progress
+	var ratio 					 = character.fame/character.level_value[character.fame_level];
 	index.xp_bar.style.transform = 'translateX(0%) skew(-30deg) scaleX('+ (ratio * 0.75) +')';
 
+	//Level up when the fame bar is full
 	if (ratio >= 1)
+		level_up();
+
+	//Check if there is a new upgrade to buy
+	setTimeout(check_upgrade_available, 1000);
+}
+
+//Sync the score every second in the local storage
+setInterval(function () {
+
+	var amelioration_string = JSON.stringify(amelioration);
+
+	localStorage.setItem('force', character.force);
+	localStorage.setItem('amelioration', amelioration_string);
+	localStorage.setItem('force_second', character.force_second);
+	localStorage.setItem('fame', character.fame);
+	localStorage.setItem('fame_second', character.fame_second);
+	localStorage.setItem('fame_level', character.fame_level);
+	localStorage.setItem('click_value', character.click_value);
+}, 1000);
+
+//level up
+function level_up() {
+
+	character.fame_level++;
+	index.button_img.src="assets/img/animations/"+ character.sex +"-"+ character.fame_level +"_anim.gif";
+
+	check_size_character();
+}
+
+//Increase the fame and strength stats per second
+setInterval(function () {
+
+	character.fame = parseFloat(character.fame) + character.fame_second;
+	character.force = parseFloat(character.force) + character.force_second;
+	change_score_value();
+}, 100);
+
+//on click on the click zone increment score
+index.button.addEventListener('click', function() {
+	character.force = parseFloat(character.force);
+	character.force = parseFloat(character.force) + parseFloat(character.click_value);
+	change_score_value();
+
+	var	level = character.fame_level;
+
+	if (level > 2)
+		level = 2;
+
+	if (finished == true)
 	{
-		character.fame_level++;
+		finished = false;
 
-		var image = index.button.querySelector('img'),
-			level = character.fame_level;
+		var audio = new Audio('assets/audio/clic.mp3');
+		audio.play();
 
-		image.src="assets/img/animations/"+ character.sex +"-"+ level +"_anim.gif";
+    	index.button_img.src="assets/img/animations/"+ character.sex +"-"+ level +"_anim.gif";
+		setTimeout(function () {
+			finished = true;
+		}, 500);
+	}
+});
+
+/*
+ * Character UI functions
+ */ 
+
+//Adapt the size of the characters
+function check_size_character () {
+	
+	//Adapt the character size to the click area (woman lvl 0)
+	if (character.fame_level == 0 && character.sex == 'female')
+	{
+		index.button_img.style.height = '400px';
+		index.button_img.style.width = 'auto';
+		index.button_img.style.marginTop = '10px';
+		index.button_img.style.marginLeft = '0px';
 	}
 
-	setTimeout(check_upgrade_available, 1000);
-
+	//Adapt the character size to the click area (woman lvl 1)
 	if (character.fame_level == 1 && character.sex == 'female')
 	{
 		index.button_img.style.height = '360px';
 		index.button_img.style.width = 'auto';
-		index.button_img.style.marginTop = '40px';
+		index.button_img.style.marginTop = '0px';
 		index.button_img.style.marginLeft = '10px';
 	}
 
+	//Adapt the character size to the click area (woman lvl 2)
 	if (character.fame_level == 2 && character.sex == 'female')
 	{
 		index.button_img.style.height = '360px';
@@ -303,47 +384,43 @@ function change_score_value () {
 		index.button_img.style.marginLeft = '40px';
 	}
 
-}
-change_score_value ();
-
-var image = index.button.querySelector('img'),
-	level = character.fame_level;
-
-image.src="assets/img/animations/"+ character.sex +"-"+ level +"_anim.gif";
-
-function check_upgrade_available () {
-
-	if (character.page_amelio < 2)
+	//Adapt the character size to the click area (man lvl 0)
+	if (character.fame_level == 0 && character.sex == 'male')
 	{
-		for (var i = 0; i < amelioration[character.page_amelio].length; i++)
-		{
-			if (amelioration[character.page_amelio][i].upgrade[0].strength < character.force)
-			{
-				var upgrade = document.querySelector('li.index-'+ i +' .upgrades .index-0');
-				upgrade.style.background = 'url(assets/img/badges/argent.svg)';
-			} else
-			{
-				var upgrade = document.querySelector('li.index-'+ i +' .upgrades .index-0');
-				upgrade.style.background = 'url(assets/img/badges/argent_lock.svg)';
-			}
+		index.button_img.style.height = '380px';
+		index.button_img.style.width = 'auto';
+		index.button_img.style.marginTop = '40px';
+		index.button_img.style.marginLeft = '70px';
+	}
 
-			if (amelioration[character.page_amelio][i].upgrade[1].strength < character.force)
-			{
-				var upgrade = document.querySelector('li.index-'+ i +' .upgrades .index-1');
-				upgrade.style.background = 'url(assets/img/badges/or.svg)';
-			} else
-			{
-				var upgrade = document.querySelector('li.index-'+ i +' .upgrades .index-1');
-				upgrade.style.background = 'url(assets/img/badges/or_lock.svg)';
-			}
-		}
+	//Adapt the character size to the click area (man lvl 1)
+	if (character.fame_level == 1 && character.sex == 'male')
+	{
+		index.button_img.style.height = '360px';
+		index.button_img.style.width = 'auto';
+		index.button_img.style.marginTop = '40px';
+		index.button_img.style.marginLeft = '40px';
+	}
+
+	//Adapt the character size to the click area (man lvl 2)
+	if (character.fame_level == 2 && character.sex == 'male')
+	{
+		index.button_img.style.height = '420px';
+		index.button_img.style.width = 'auto';
+		index.button_img.style.marginTop = '0px';
+		index.button_img.style.marginLeft = '40px';
 	}
 }
 
-//Change the amelioration panels
+/*
+ * Amelioration managing functions
+ */
+
+//Change the amelioration panels on click on a section (force, fame, both)
 for (var i = 0; i < index.amelioration_panels.length; i++)
 {
 	index.amelioration_panels[i].addEventListener('click', function (){
+		
 		var number = this.getAttribute('data-index');
 
 		character.page_amelio = number;
@@ -353,6 +430,7 @@ for (var i = 0; i < index.amelioration_panels.length; i++)
 	});
 }
 
+//Change the color of the current selected panel in the ameliorations
 function change_color_panel () {
 
 	for (var i = 0; i < index.amelioration_panels.length; i++)
@@ -367,7 +445,6 @@ function change_color_panel () {
 			index.amelioration_panels[i].style.background = '#05D1D7';
 			index.amelioration_panels[i].style.color = '#fff';
 		}
-
 	}
 }
 
@@ -391,224 +468,6 @@ function change_amelioration_value (index1) {
 			character.fame_second += amelioration[character.page_amelio][index1].value;
 		
 }
-
-// Change and apply the changes of an upgrade when bought
-function change_upgrade_value (index1, index2) {
-
-	if (amelioration[character.page_amelio][index2].upgrade[index1].results == 'multiplication')
-	{
-		var results_amelioration = amelioration[character.page_amelio][index2].results;
-
-		if (results_amelioration == 'click_value')
-			character.click_value = character.click_value * (amelioration[character.page_amelio][index2].upgrade[index1].value);
-		else if (results_amelioration == 'auto_click')
-			character.force_second = character.force_second * (amelioration[character.page_amelio][index2].upgrade[index1].value);
-
-	}
-	else if (amelioration[character.page_amelio][index2].upgrade[index1].results == 'percent_strenght')
-	{
-		console.log('percent_strength');
-	}
-	else if (amelioration[character.page_amelio][index2].upgrade[index1].results == 'percent')
-	{
-		console.log('percent');
-	}
-
-	if (amelioration[character.page_amelio][index2].upgrade[index1].again == false)
-	{
-		amelioration[character.page_amelio][index2].upgrade[index1].bought = true;
-
-		console.log('.amelioration ul li.index-'+index2+' .upgrades .index-'+index1);
-
-		var change = document.querySelector('.amelioration ul li.index-'+index2+' .upgrades .index-'+index1);
-		change.classList.add('already-bought');
-	}
-}
-
-//Sync the score every second
-setInterval(function () {
-
-	var amelioration_string = JSON.stringify(amelioration);
-
-	localStorage.setItem('force', character.force);
-	localStorage.setItem('amelioration', amelioration_string);
-	localStorage.setItem('force_second', character.force_second);
-	localStorage.setItem('fame', character.fame);
-	localStorage.setItem('fame_second', character.fame_second);
-	localStorage.setItem('fame_level', character.fame_level);
-	localStorage.setItem('click_value', character.click_value);
-}, 1000);
-
-//Increase the fame and strength per second
-setInterval(function () {
-
-	character.fame = parseFloat(character.fame) + character.fame_second;
-	character.force = parseFloat(character.force) + character.force_second;
-	change_score_value();
-}, 100)
-
-/*******************
-
-Notifications
-
-********************/
-
-//check and display if there is any notification to display
-function check_notif () {
-
-	requestAnimationFrame(check_notif);
-
-	if (character.force != 0)
-		notif.first.style.display = 'none';
-}
-check_notif ();
-
-/********************
-
-Interface interactions
-
-********************/
-
-//Choose your level
-index.gym_choose_button.addEventListener('click', function () {
-	
-	if (index.gym_choose.classList.contains('open'))
-	{
-		index.gym_choose.classList.add('close');
-		index.gym_choose.classList.remove('open');
-	}
-	else if (index.gym_choose.classList.contains('close'))
-	{
-		index.gym_choose.classList.add('open');
-		index.gym_choose.classList.remove('close');
-	}
-});
-
-function change_gym () {
-
-	for (var i = 0; i < index.gym_list_all.length; i++)
-	{
-		index.gym_list_all[i].addEventListener('click', function () {
-			var data_index = this.getAttribute('data-index');
-			index.click_area.style.background = 'url(assets/img/decor_'+ data_index +'.jpg)';
-			index.click_area.style.backgroundSize = '100% auto';
-			index.click_area.style.backgroundPosition = 'center';
-		});
-	}
-}
-change_gym();
-
-index.click_area.style.backgroundSize = '100% auto';
-
-//On the landing section make text appear
-setTimeout(function () {
-	index.landing.classList.add('beginning');
-}, 300);
-
-
-//on click on the click zone increment score
-index.button.addEventListener('click', function() {
-	character.force = parseFloat(character.force);
-	character.force = parseFloat(character.force) + parseFloat(character.click_value);
-	change_score_value();
-
-	var image = index.button.querySelector('img'),
-		level = character.fame_level;
-
-	if (level > 2)
-		level = 2;
-
-	if (finished == true)
-	{
-		finished = false;
-
-		var audio = new Audio('assets/audio/clic.mp3');
-		audio.play();
-
-    	image.src="assets/img/animations/"+ character.sex +"-"+ level +"_anim.gif";
-		setTimeout(function () {
-			finished = true;
-		}, 500);
-	}
-});
-
-//Make the description panel appear and fill on hover
-function panel_appear () {
-
-	for (var i = 0; i < amelioration[character.page_amelio].length; i++)
-	{
-		var button = index.container.querySelector('.amelioration .buy-button.index-'+ i);
-
-		button.addEventListener('mouseover', function () {
-
-		var button_coord = this.getBoundingClientRect();
-
-		index.panel_desc.style.transform = 'translateX(-400px) translateY('+ button_coord.top +'px)';
-			
-			index.panel_desc.style.opacity = 1;
-			index.panel_desc.style.zIndex = 10;
-
-			var index1 		= this.getAttribute('data-index'),
-				description = amelioration[character.page_amelio][index1].description,
-				name        = amelioration[character.page_amelio][index1].name,
-				value       = amelioration[character.page_amelio][index1].value,
-				cout        = amelioration[character.page_amelio][index1].strength,
-				results     = amelioration[character.page_amelio][index1].results;
-
-			index.panel_desc.innerHTML = '<p>Description : ' + description +'</p><p> Chaque <strong>' + name +'</strong> vous donne <strong>+' + value + '</strong> dans votre <strong>' + results + '</strong><p>Cout : '+ cout +'<p>';
-		});
-
-		if (character.page_amelio < 2)
-		{
-			for (var j = 0; j < 2; j++)
-			{
-	    		var up_button = index.container.querySelector('.amelioration li.index-'+ i +' .upgrades .upgrade.index-'+j);
-
-	    		up_button.addEventListener('mouseover', function () {
-
-	    		var button_coord = this.getBoundingClientRect();
-
-		        index.panel_desc.style.transform = 'translateX(-400px) translateY('+ button_coord.top +'px)';
-
-	    			index.panel_desc.style.opacity = 1;
-	    			index.panel_desc.style.zIndex = 10;
-
-	    			var index2 		= this.getAttribute('data-index'),
-	    				index1 		= this.getAttribute('data-former'),
-						description = amelioration[character.page_amelio][index1].upgrade[index2].description,
-						name        = amelioration[character.page_amelio][index1].upgrade[index2].name,
-						value       = amelioration[character.page_amelio][index1].upgrade[index2].value,
-						cout        = amelioration[character.page_amelio][index1].upgrade[index2].strength,
-						results     = amelioration[character.page_amelio][index1].upgrade[index2].results;
-
-					index.panel_desc.innerHTML = '<p>Description : ' + description +'</p><p> Chaque <strong>' + name +'</strong> vous donne <strong>+' + value + '</strong> dans votre <strong>' + results + '</strong><p>Cout : '+ cout +'<p>';
-	    		});
-
-	    		up_button.addEventListener('mouseout', function () {
-			
-					index.panel_desc.style.opacity = 0;
-					index.panel_desc.style.zIndex  = -10;
-				});
-			}
-		}
-
-		button.addEventListener('mouseout', function () {
-			
-			index.panel_desc.style.opacity = 0;
-			index.panel_desc.style.zIndex  = -10;
-		});
-	}
-}
-
-//Hide the landing page on click on the play button
-index.landing_button.addEventListener('click', function () {
-
-	index.container.classList.add('hide_landing');
-	index.container.classList.add('choose_character');
-});
-
-if (character.force != 0)
-	index.container.classList.add('hide_landing');
 
 //Display ameliorations
 function display_ameliorations () {
@@ -638,15 +497,13 @@ function display_ameliorations () {
 			level    = amelioration[character.page_amelio][i].level;
 
 		if (character.page_amelio < 2)
-			index.amelioration_list.innerHTML += '<li data-index="' + i + '" class="index-' + i + ' ' + unlock + '"><div class="locked">Locked</div><img src="assets/img/amelioration/'+ url +'" alt="amelioration icon" class="illustration index-' + i + '"><p class="name index-' + i + '">' + name + '</p><button class="buy-button index-' + i + '" data-index="' + i + '"><span class="value">' + strength + '</span></button><span class="level">' + level + '</span><div class="upgrades"><div class="upgrade index-0 ' + bought + '" data-index="0" data-former="'+ i +'"></div><div class="upgrade index-1 ' + bought2 + '" data-index="1" data-former="'+ i +'"></div></li>';
+			index.amelioration_list.innerHTML += '<li data-index="' + i + '" class="index-' + i + ' ' + unlock + '"><div class="locked index-'+ i +'" data-index="'+ i +'">Locked</div><img src="assets/img/amelioration/'+ url +'" alt="amelioration icon" class="illustration index-' + i + '"><p class="name index-' + i + '">' + name + '</p><button class="buy-button index-' + i + '" data-index="' + i + '"><span class="value">' + strength + '</span></button><span class="level">' + level + '</span><div class="upgrades"><div class="upgrade index-0 ' + bought + '" data-index="0" data-former="'+ i +'"><img src="assets/img/checked.svg"></div><div class="upgrade index-1 ' + bought2 + '" data-index="1" data-former="'+ i +'"><img src="assets/img/checked.svg"></div></li>';
 		else
-			index.amelioration_list.innerHTML += '<li data-index="' + i + '" class="index-' + i + ' ' + unlock + '"><div class="locked">Locked</div><img src="assets/img/amelioration/'+ url +'" alt="amelioration icon" class="illustration index-' + i + '"><p class="name index-' + i + '">' + name + '</p><button class="buy-button index-' + i + '" data-index="' + i + '"><span class="value">' + strength + '</span></button><span class="level">' + level + '</span></div></li>';
+			index.amelioration_list.innerHTML += '<li data-index="' + i + '" class="index-' + i + ' ' + unlock + '"><div class="locked index-'+ i +'" data-index="'+ i +'">Locked</div><img src="assets/img/amelioration/'+ url +'" alt="amelioration icon" class="illustration index-' + i + '"><p class="name index-' + i + '">' + name + '</p><button class="buy-button index-' + i + '" data-index="' + i + '"><span class="value">' + strength + '</span></button><span class="level">' + level + '</span></div></li>';
 	}
 	add_event_buy ();
 	panel_appear();
 }
-
-display_ameliorations ();
 
 //retrieve ameliorations and upgrades to buy
 function add_event_buy () {
@@ -666,7 +523,7 @@ function add_event_buy () {
 			{
 				character.force = character.force - price;
 				amelioration[character.page_amelio][index].level++;
-				amelioration[character.page_amelio][index].strength = parseInt(Math.pow(price, 1.15));
+				amelioration[character.page_amelio][index].strength = parseInt(price*1.15);
 				change_amelioration_value(index);
 				change_score_value();
 			}
@@ -706,3 +563,257 @@ function add_event_buy () {
 		}
 	}
 }
+
+/*
+ * Upgrades managing functions
+ */ 
+
+//Check if there is a new_upgrade to buy every second
+function check_upgrade_available () {
+
+	if (character.page_amelio < 2)
+	{
+		for (var i = 0; i < amelioration[character.page_amelio].length; i++)
+		{
+			if (amelioration[character.page_amelio][i].upgrade[0].strength < character.force)
+			{
+				var upgrade = document.querySelector('li.index-'+ i +' .upgrades .index-0');
+				upgrade.style.background = 'url(assets/img/badges/argent.svg)';
+			}
+
+			if (amelioration[character.page_amelio][i].upgrade[1].strength < character.force)
+			{
+				var upgrade = document.querySelector('li.index-'+ i +' .upgrades .index-1');
+				upgrade.style.background = 'url(assets/img/badges/or.svg)';
+			}
+		}
+	}
+}
+
+//Change and apply the changes of an upgrade when bought
+function change_upgrade_value (index1, index2) {
+
+	//multiplication mouse upgrades (double effect of the amelioration + click value)
+	if (amelioration[character.page_amelio][index2].upgrade[index1].results == 'multiplication_mouse')
+	{
+		character.click_value = character.click_value * (amelioration[character.page_amelio][index2].upgrade[index1].value);
+
+		var actual_bonus = amelioration[character.page_amelio][index2].value * amelioration[character.page_amelio][index2].level;
+		var next_bonus   = actual_bonus * amelioration[character.page_amelio][index2].upgrade[index1].value;
+
+		amelioration[character.page_amelio][index2].value = amelioration[character.page_amelio][index2].value * amelioration[character.page_amelio][index2].upgrade[index1].value;
+
+		character.force_second = character.force_second - actual_bonus + next_bonus;
+	}
+	//multiplication (double effect)
+	else if (amelioration[character.page_amelio][index2].upgrade[index1].results == 'multiplication')
+	{
+		var actual_bonus = amelioration[character.page_amelio][index2].value * amelioration[character.page_amelio][index2].level;
+		var next_bonus   = actual_bonus * amelioration[character.page_amelio][index2].upgrade[index1].value;
+
+		amelioration[character.page_amelio][index2].value = amelioration[character.page_amelio][index2].value * amelioration[character.page_amelio][index2].upgrade[index1].value;
+
+		character.force_second = character.force_second - actual_bonus + next_bonus;
+	}
+	// Percent of strength gained
+	else if (amelioration[character.page_amelio][index2].upgrade[index1].results == 'percent_strength')
+	{
+		for (var i = 0; i < amelioration[character.page_amelio].length; i++ )
+		{
+			amelioration[character.page_amelio][i].value = ((100 + amelioration[character.page_amelio][index2].upgrade[index1].value)*amelioration[character.page_amelio][i].value)/100;
+		}
+		character.force_second = (character.force_second*(100 + amelioration[character.page_amelio][index2].upgrade[index1].value))/100;
+	}
+
+	if (amelioration[character.page_amelio][index2].upgrade[index1].again == false)
+	{
+		amelioration[character.page_amelio][index2].upgrade[index1].bought = true;
+
+		var change = document.querySelector('.amelioration ul li.index-'+index2+' .upgrades .index-'+index1);
+		change.classList.add('already-bought');
+	}
+}
+
+/*
+ * Notifications
+ */
+
+//check and display if there is any notification to display
+function check_notif () {
+
+	requestAnimationFrame(check_notif);
+
+	if (character.force != 0)
+		notif.first.style.display = 'none';
+}
+
+/*
+ * Interface interactions
+ */
+
+//Choose your gym level
+index.gym_choose_button.addEventListener('click', function () {
+	
+	if (index.gym_choose.classList.contains('open'))
+	{
+		index.gym_choose.classList.add('close');
+		index.gym_choose.classList.remove('open');
+	}
+	else if (index.gym_choose.classList.contains('close'))
+	{
+		index.gym_choose.classList.add('open');
+		index.gym_choose.classList.remove('close');
+	}
+});
+
+//Change the gym background
+function change_gym () {
+
+	for (var i = 0; i < index.gym_list_all.length; i++)
+	{
+		index.gym_list_all[i].addEventListener('click', function () {
+			var data_index = this.getAttribute('data-index');
+			index.click_area.style.background = 'url(assets/img/decor_'+ data_index +'.jpg)';
+			index.click_area.style.backgroundSize = '100% auto';
+			index.click_area.style.backgroundPosition = 'center';
+		});
+	}
+}
+
+//On the landing section make text appear
+setTimeout(function () {
+	index.landing.classList.add('beginning');
+}, 300);
+
+//Make the description panel appear and fill on hover
+function panel_appear () {
+
+	//Desciption on ameliorations
+	for (var i = 0; i < amelioration[character.page_amelio].length; i++)
+	{
+		//for the ameliorations
+		var button = index.container.querySelector('.amelioration .buy-button.index-'+ i);
+
+		button.addEventListener('mouseover', function () {
+
+			var button_coord = this.getBoundingClientRect(),
+			    index1 		 = this.getAttribute('data-index'),
+				description  = amelioration[character.page_amelio][index1].description,
+				name         = amelioration[character.page_amelio][index1].name,
+				value        = amelioration[character.page_amelio][index1].value,
+				cout         = amelioration[character.page_amelio][index1].strength,
+				results      = amelioration[character.page_amelio][index1].results;
+
+			index.panel_desc.innerHTML = '<p>Description : ' + description +'</p><p> Chaque <strong>' + name +'</strong> vous donne <strong>+' + value + '</strong> dans votre <strong>' + results + '</strong><p>Cout : '+ cout +'<p>';
+
+			index.panel_desc.style.transform = 'translateX(-400px) translateY('+ button_coord.top +'px)';
+			index.panel_desc.style.opacity = 1;
+			index.panel_desc.style.zIndex = 10;
+		});
+
+		//for the locked ameliorations
+		var lock = index.container.querySelector('.amelioration .locked.index-'+i);
+
+		lock.addEventListener('mouseover', function () {
+
+			var button_coord = this.getBoundingClientRect(),
+			    index1       = this.getAttribute('data-index'),
+				fame_need    = amelioration[character.page_amelio][index1].fame;
+
+			index.panel_desc.innerHTML = '<p>Pour débloquer cette amélioration il vous faut ' + fame_need + ' abonnés</p>';
+
+			index.panel_desc.style.transform = 'translateX(-400px) translateY('+ button_coord.top +'px)';
+			index.panel_desc.style.opacity = 1;
+			index.panel_desc.style.zIndex = 10;
+		});
+
+		//description on upgrades
+		if (character.page_amelio < 2)
+		{
+			for (var j = 0; j < 2; j++)
+			{
+	    		var up_button = index.container.querySelector('.amelioration li.index-'+ i +' .upgrades .upgrade.index-'+j);
+
+	    		up_button.addEventListener('mouseover', function () {
+
+	    		var button_coord = this.getBoundingClientRect();
+
+		        index.panel_desc.style.transform = 'translateX(-400px) translateY('+ button_coord.top +'px)';
+
+	    			index.panel_desc.style.opacity = 1;
+	    			index.panel_desc.style.zIndex = 10;
+
+	    			var index2 		= this.getAttribute('data-index'),
+	    				index1 		= this.getAttribute('data-former'),
+						description = amelioration[character.page_amelio][index1].upgrade[index2].description,
+						name        = amelioration[character.page_amelio][index1].upgrade[index2].name,
+						value       = amelioration[character.page_amelio][index1].upgrade[index2].value,
+						cout        = amelioration[character.page_amelio][index1].upgrade[index2].strength,
+						results     = amelioration[character.page_amelio][index1].upgrade[index2].results;
+
+					index.panel_desc.innerHTML = '<p>Description : ' + description +'</p><p> Chaque <strong>' + name +'</strong> vous donne <strong>+' + value + '</strong> dans votre <strong>' + results + '</strong><p>Cout : '+ cout +'<p>';
+	    		});
+
+	    		up_button.addEventListener('mouseout', function () {
+			
+					index.panel_desc.style.opacity = 0;
+					index.panel_desc.style.zIndex  = -10;
+				});
+			}
+		}
+
+		button.addEventListener('mouseout', function () {
+			
+			index.panel_desc.style.opacity = 0;
+			index.panel_desc.style.zIndex  = -10;
+		});
+
+		lock.addEventListener('mouseout', function () {
+			
+			index.panel_desc.style.opacity = 0;
+			index.panel_desc.style.zIndex  = -10;
+		});
+	}
+}
+
+//Hide the landing page on click on the play button
+index.landing_button.addEventListener('click', function () {
+
+	index.container.classList.add('hide_landing');
+	index.container.classList.add('choose_character');
+});
+
+//Make the landing disapear if the player has already played
+if (character.force != 0)
+	index.container.classList.add('hide_landing');
+/*
+ * Starting functions
+ */
+
+//functions to launch on connexion of the player
+display_ameliorations();
+change_score_value();
+check_size_character();
+check_notif();
+change_gym();
+index.button_img.src="assets/img/animations/"+ character.sex +"-"+ character.fame_level +"_anim.gif";
+index.click_area.style.backgroundSize = '100% auto';
+
+/*
+ * Responsiv
+ */
+
+//make the burger menu display the ameliorations
+index.burger = index.container.querySelector('.hamburger');
+
+index.burger.addEventListener('click', function () {
+
+ 	if (this.classList.contains('is-active'))
+ 	{
+ 		this.classList.remove('is-active');
+ 	}
+ 	else
+ 	{
+ 		this.classList.add('is-active');
+ 	}
+ });

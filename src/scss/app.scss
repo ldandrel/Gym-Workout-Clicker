@@ -1,10 +1,10 @@
 @charset 'UTF-8';
 
+// Vendors
+@import 'vendor/hamburgers';
+
 // Tools
 @import 'tools/variables';
-
-// Vendors
-@import 'vendor/bootstrap';
 
 // Base
 @import 'base/base';
