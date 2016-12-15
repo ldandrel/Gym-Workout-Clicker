@@ -437,6 +437,7 @@ setInterval(function () {
 	localStorage.setItem('fame_second', character.fame_second);
 	localStorage.setItem('fame_level', character.fame_level);
 	localStorage.setItem('click_value', character.click_value);
+	document.title = convert_number(character.force) + 'Gym-Workout-Clicker';
 }, 1000);
 
 //Increase the fame and strength per second
