@@ -15,6 +15,9 @@ var index 				 	          = {};
 	index.options_button              = index.options.querySelector('.options-button');
 	index.reset 		              = index.options.querySelector('.reset');
 	index.panel_desc            	  = document.querySelector('.mouse-hover-description');
+	index.amelioration_panels		  = index.container.querySelectorAll('.panel');
+	index.fame_level_display		  = index.container.querySelector('.fame_level span');
+	index.xp_bar					  = index.container.querySelector('.progress-xp-bar');
 
 var character 		  	   = {};
 	character.force    	   = 0;
@@ -23,6 +26,8 @@ var character 		  	   = {};
 	character.fame_second  = 0;
 	character.click_value  = 1;
 	character.page_amelio  = 0;
+	character.fame_level   = 0;
+	character.level_value  = [1000, 10000, 1000000]; 
 
 var notif       = {};
 	notif.first = index.container.querySelector('.first-click-notif');
@@ -50,10 +55,13 @@ index.reset.addEventListener('click', function () {
 	character.fame   	   = 0;
 	character.fame_second  = 0;
 	character.click_value  = 1;
+	character.fame_level   = 0;
+	character.level_value  = [1000, 10000, 1000000]; 
 	amelioration = amelioration_base;
 	index.amelioration_list.innerHTML = '';
 	display_ameliorations();
 });
+
 
 
 /******************
@@ -90,6 +98,16 @@ else
 {
 	character.click_value = parseInt(character.click_value);
 	index.click_value_display.innerHTML = character.click_value;
+}
+
+//Get fame_level
+character.fame_level = localStorage.getItem('fame_level');
+if (isNaN(character.fame_level))
+	character.fame_level = 0;
+else
+{
+	character.fame_level = parseInt(character.fame_level);
+	index.fame_level_display.innerHTML = character.fame_level;
 }
 
 //Get fame
@@ -186,8 +204,6 @@ function convert_number( value )
 		var round_value = Math.floor( value / unit.value ),
 			rest_value  = Math.floor( value / ( unit.value / 1000 ) - round_value * 1000 )
 
-
-
 		var text_value = null;
 
 		if( round_value === 1 )
@@ -213,8 +229,46 @@ function change_score_value () {
 	index.fame_display.innerHTML         = convert_number(character.fame);
 	index.fame_second_display.innerHTML  = convert_number(character.fame_second);
 	index.click_value_display.innerHTML  = convert_number(character.click_value);
+	index.fame_level_display.innerHTML   = convert_number(character.fame_level);
+
+	var ratio = character.fame/character.level_value[character.fame_level];
+	index.xp_bar.style.transform = 'translateX(-20%) skew(-30deg) scaleX('+ ratio +')';
+
+	if (ratio >= 1)
+		character.fame_level++;
 }
 change_score_value ();
+
+//Change the amelioration panels
+for (var i = 0; i < index.amelioration_panels.length; i++)
+{
+	index.amelioration_panels[i].addEventListener('click', function (){
+		var number = this.getAttribute('data-index');
+
+		character.page_amelio = number;
+		index.amelioration_list.innerHTML = '';
+		display_ameliorations();
+		change_color_panel();
+	});
+}
+
+function change_color_panel () {
+
+	for (var i = 0; i < index.amelioration_panels.length; i++)
+	{
+		if (character.page_amelio != i)
+		{
+			index.amelioration_panels[i].style.background = '#fff';
+			index.amelioration_panels[i].style.color = '#05D1D7';
+		}
+		else
+		{
+			index.amelioration_panels[i].style.background = '#05D1D7';
+			index.amelioration_panels[i].style.color = '#fff';
+		}
+
+	}
+}
 
 //Change the value of the ameliorations
 function change_amelioration_value (index1) {
@@ -231,7 +285,10 @@ function change_amelioration_value (index1) {
 	if (results_amelioration == 'click_value')
 		character.click_value = character.click_value + (amelioration[character.page_amelio][index1].value);
 	else if (results_amelioration == 'auto_click')
-		character.force_second += amelioration[character.page_amelio][index1].value;
+			character.force_second += amelioration[character.page_amelio][index1].value;
+	else if (results_amelioration == 'auto_fame')
+			character.fame_second += amelioration[character.page_amelio][index1].value;
+		
 }
 
 // Change and apply the changes of an upgrade when bought
@@ -277,6 +334,7 @@ setInterval(function () {
 	localStorage.setItem('force_second', character.force_second);
 	localStorage.setItem('fame', character.fame);
 	localStorage.setItem('fame_second', character.fame_second);
+	localStorage.setItem('fame_level', character.fame_level);
 	localStorage.setItem('click_value', character.click_value);
 }, 1000);
 
@@ -293,6 +351,7 @@ setInterval(function () {
 Notifications
 
 ********************/
+
 //check and display if there is any notification to display
 function check_notif () {
 
@@ -333,61 +392,70 @@ index.button.addEventListener('click', function() {
 		}
 });
 
-
-//Make the description panel follow the mouse
-document.addEventListener('mouseover', function (event) {
-
-	var mouseX = event.clientX - 305,
-		mouseY = event.clientY - 205;
-
-	if (mouseY < 205 )
-		mouseY += 205;
-
-	index.panel_desc.style.transform = 'translateX('+ mouseX +'px) translateY('+ mouseY +'px)';
-});
-
 //Make the description panel appear and fill on hover
 function panel_appear () {
 
 	for (var i = 0; i < amelioration[character.page_amelio].length; i++)
 	{
-		var button = index.container.querySelector('.amelioration .buy-button.index-'+i);
+		var button = index.container.querySelector('.amelioration .buy-button.index-'+ i);
 
 		button.addEventListener('mouseover', function () {
+
+		var button_coord = this.getBoundingClientRect();
+
+		index.panel_desc.style.transform = 'translateX(-400px) translateY('+ button_coord.top +'px)';
 			
 			index.panel_desc.style.opacity = 1;
+			index.panel_desc.style.zIndex = 10;
 
 			var index1 		= this.getAttribute('data-index'),
 				description = amelioration[character.page_amelio][index1].description,
 				name        = amelioration[character.page_amelio][index1].name,
 				value       = amelioration[character.page_amelio][index1].value,
+				cout        = amelioration[character.page_amelio][index1].strength,
 				results     = amelioration[character.page_amelio][index1].results;
 
-			index.panel_desc.innerHTML = '<p>Description : ' + description +'</p><p> Chaque <strong>' + name +'</strong> vous donne <strong>+' + value + '</strong> dans votre <strong>' + results + '</strong>';
+			index.panel_desc.innerHTML = '<p>Description : ' + description +'</p><p> Chaque <strong>' + name +'</strong> vous donne <strong>+' + value + '</strong> dans votre <strong>' + results + '</strong><p>Cout : '+ cout +'<p>';
 		});
 
-		for (var j = 0; j < 2; j++)
+		if (character.page_amelio < 2)
 		{
-    		var up_button = index.container.querySelector('.amelioration li.index-'+ i +' .upgrades .upgrade.index-'+j);
+			for (var j = 0; j < 2; j++)
+			{
+	    		var up_button = index.container.querySelector('.amelioration li.index-'+ i +' .upgrades .upgrade.index-'+j);
 
-    		up_button.addEventListener('mouseover', function () {
+	    		up_button.addEventListener('mouseover', function () {
 
-    			index.panel_desc.style.opacity = 1;
+	    		var button_coord = this.getBoundingClientRect();
 
-    			var index2 		= this.getAttribute('data-index'),
-    				index1 		= this.getAttribute('data-former'),
-					description = amelioration[character.page_amelio][index1].upgrade[index2].description,
-					name        = amelioration[character.page_amelio][index1].upgrade[index2].name,
-					value       = amelioration[character.page_amelio][index1].upgrade[index2].value,
-					results     = amelioration[character.page_amelio][index1].upgrade[index2].results;
+		        index.panel_desc.style.transform = 'translateX(-400px) translateY('+ button_coord.top +'px)';
 
-				index.panel_desc.innerHTML = '<p>Description : ' + description +'</p><p> Chaque <strong>' + name +'</strong> vous donne <strong>+' + value + '</strong> dans votre <strong>' + results + '</strong>';
-    		});
+	    			index.panel_desc.style.opacity = 1;
+	    			index.panel_desc.style.zIndex = 10;
+
+	    			var index2 		= this.getAttribute('data-index'),
+	    				index1 		= this.getAttribute('data-former'),
+						description = amelioration[character.page_amelio][index1].upgrade[index2].description,
+						name        = amelioration[character.page_amelio][index1].upgrade[index2].name,
+						value       = amelioration[character.page_amelio][index1].upgrade[index2].value,
+						cout        = amelioration[character.page_amelio][index1].upgrade[index2].strength,
+						results     = amelioration[character.page_amelio][index1].upgrade[index2].results;
+
+					index.panel_desc.innerHTML = '<p>Description : ' + description +'</p><p> Chaque <strong>' + name +'</strong> vous donne <strong>+' + value + '</strong> dans votre <strong>' + results + '</strong><p>Cout : '+ cout +'<p>';
+	    		});
+
+	    		up_button.addEventListener('mouseout', function () {
+			
+					index.panel_desc.style.opacity = 0;
+					index.panel_desc.style.zIndex  = -10;
+				});
+			}
 		}
 
 		button.addEventListener('mouseout', function () {
 			
 			index.panel_desc.style.opacity = 0;
+			index.panel_desc.style.zIndex  = -10;
 		});
 	}
 }
@@ -407,21 +475,29 @@ function display_ameliorations () {
 		if (amelioration[character.page_amelio][i].fame > character.fame)
 			unlock = '';
 
-		var bought = 'already-bought';
-		if (amelioration[character.page_amelio][i].upgrade[0].bought == false)
-			bought = '';
+		if (character.page_amelio < 2)
+		{
+			var bought = 'already-bought';
+				if (amelioration[character.page_amelio][i].upgrade[0].bought == false)
+				bought = '';
 
-		var bought2 = 'already-bought';
-		if (amelioration[character.page_amelio][i].upgrade[1].bought == false)
-			bought2 = '';
+			var bought2 = 'already-bought';
+			if (amelioration[character.page_amelio][i].upgrade[1].bought == false)
+				bought2 = '';
+
+			var upgrade1 = amelioration[character.page_amelio][i].upgrade[0].name,
+				upgrade2 = amelioration[character.page_amelio][i].upgrade[1].name;
+		}
 
 		var name     = amelioration[character.page_amelio][i].name,
 			strength = amelioration[character.page_amelio][i].strength,
-			level    = amelioration[character.page_amelio][i].level,
-			upgrade1 = amelioration[character.page_amelio][i].upgrade[0].name,
-			upgrade2 = amelioration[character.page_amelio][i].upgrade[1].name;
+			url      = amelioration[character.page_amelio][i].icon,
+			level    = amelioration[character.page_amelio][i].level;
 
-		index.amelioration_list.innerHTML += '<li data-index="' + i + '" class="index-' + i + ' ' + unlock + '"><div class="locked">Locked</div><img src="assets/img/amelio.jpg" alt="amelioration icon" class="illustration index-' + i + '"><p class="name index-' + i + '">' + name + '</p><button class="buy-button index-' + i + '" data-index="' + i + '"><p>Buy</p><img src="assets/img/strength.png" alt="Strength Icon"><span class="value">' + strength + '</span></button><span class="level">' + level + '</span><div class="upgrades"><div class="upgrade index-0 ' + bought + '" data-index="0" data-former="'+ i +'"><div class="bought">Bought</div>' + upgrade1 + '</div><div class="upgrade index-1 ' + bought2 + '" data-index="1" data-former="'+ i +'"><div class="bought">Bought</div>' + upgrade2 + '</div></div></li>';
+		if (character.page_amelio < 2)
+			index.amelioration_list.innerHTML += '<li data-index="' + i + '" class="index-' + i + ' ' + unlock + '"><div class="locked">Locked</div><img src="assets/img/amelioration/'+ url +'" alt="amelioration icon" class="illustration index-' + i + '"><p class="name index-' + i + '">' + name + '</p><button class="buy-button index-' + i + '" data-index="' + i + '"><span class="value">' + strength + '</span></button><span class="level">' + level + '</span><div class="upgrades"><div class="upgrade index-0 ' + bought + '" data-index="0" data-former="'+ i +'"></div><div class="upgrade index-1 ' + bought2 + '" data-index="1" data-former="'+ i +'"></div></li>';
+		else
+			index.amelioration_list.innerHTML += '<li data-index="' + i + '" class="index-' + i + ' ' + unlock + '"><div class="locked">Locked</div><img src="assets/img/amelioration/'+ url +'" alt="amelioration icon" class="illustration index-' + i + '"><p class="name index-' + i + '">' + name + '</p><button class="buy-button index-' + i + '" data-index="' + i + '"><span class="value">' + strength + '</span></button><span class="level">' + level + '</span></div></li>';
 	}
 	add_event_buy ();
 	panel_appear();
@@ -453,34 +529,37 @@ function add_event_buy () {
 			}
 		});
 
-		index.amelioration_button_upgrade[i] = [];
-
-		for (var j = 0; j < 2; j++)
+		if (character.page_amelio < 2)
 		{
-			index.amelioration_button_upgrade[i][j] = index.container.querySelector('.amelioration-list li.index-' + i  + ' .upgrade.index-' + j);
-			
-			index.amelioration_button_upgrade[i][j].addEventListener('click', function() {
+					index.amelioration_button_upgrade[i] = [];
 
-				var index_upgrade   = this.getAttribute('data-index'),
-					index_upgrade_2 = this.getAttribute('data-former'),
-					price_upgrade   = amelioration[character.page_amelio][index_upgrade_2].upgrade[index_upgrade].strength;
+			for (var j = 0; j < 2; j++)
+			{
+				index.amelioration_button_upgrade[i][j] = index.container.querySelector('.amelioration-list li.index-' + i  + ' .upgrade.index-' + j);
+				
+				index.amelioration_button_upgrade[i][j].addEventListener('click', function() {
 
-				if (amelioration[character.page_amelio][index_upgrade_2].upgrade[index_upgrade].bought == true)
-					alert('You have already bought that item');
-				else
-				{
+					var index_upgrade   = this.getAttribute('data-index'),
+						index_upgrade_2 = this.getAttribute('data-former'),
+						price_upgrade   = amelioration[character.page_amelio][index_upgrade_2].upgrade[index_upgrade].strength;
 
-					if (character.force <  price_upgrade)
-						alert('You have not enought strength to purchase that');
+					if (amelioration[character.page_amelio][index_upgrade_2].upgrade[index_upgrade].bought == true)
+						alert('You have already bought that item');
 					else
 					{
-						character.force = character.force - price_upgrade;
-						amelioration[character.page_amelio][index_upgrade_2].upgrade[index_upgrade].strength = price_upgrade*2;
-						change_upgrade_value(index_upgrade, index_upgrade_2);
-						change_score_value();
+
+						if (character.force <  price_upgrade)
+							alert('You have not enought strength to purchase that');
+						else
+						{
+							character.force = character.force - price_upgrade;
+							amelioration[character.page_amelio][index_upgrade_2].upgrade[index_upgrade].strength = price_upgrade*2;
+							change_upgrade_value(index_upgrade, index_upgrade_2);
+							change_score_value();
+						}
 					}
-				}
-			});
+				});
+			}
 		}
 	}
 }
