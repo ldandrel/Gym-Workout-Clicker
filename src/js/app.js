@@ -47,12 +47,24 @@ Options
 
 index.sex_choose[0].addEventListener('click', function () {
 
+	character.sex = 'female';
+	index.container.classList.remove('choose_character');
+		localStorage.setItem('sex', character.sex);
 
+	var image = index.button.querySelector('img');
+
+	image.src="assets/img/animations/"+ character.sex +"-"+ level +"_anim.gif";
 });
 
 index.sex_choose[1].addEventListener('click', function () {
 
+	character.sex = 'male';
+	index.container.classList.remove('choose_character');
+	localStorage.setItem('sex', character.sex);
 
+	var image = index.button.querySelector('img');
+
+	image.src="assets/img/animations/"+ character.sex +"-"+ level +"_anim.gif";
 });
 
 
@@ -70,6 +82,7 @@ index.reset.addEventListener('click', function () {
 	
 	character.force    	   = 0;
 	character.force_second = 0;
+	character.force_second = 'male';
 	character.fame   	   = 0;
 	character.fame_second  = 0;
 	character.click_value  = 1;
@@ -86,15 +99,15 @@ Character / score
 
 ******************/
 
-//get force
+//Get force
 character.force = localStorage.getItem('force');
 if (isNaN(character.force))
 	character.force = 0;
 else
 {
 	character.force = parseFloat(character.force);
-	index.force_display.innerHTML = character.force;
 }
+index.force_display.innerHTML = character.force;
 
 //Get force per second
 character.force_second = localStorage.getItem('force_second');
@@ -103,8 +116,8 @@ if (isNaN(character.force_second))
 else
 {
 	character.force_second = parseFloat(character.force_second);
-	index.force_second_display.innerHTML = character.force_second;
 }
+index.force_second_display.innerHTML = character.force_second;
 
 //Get click_value
 character.click_value = localStorage.getItem('click_value');
@@ -113,8 +126,8 @@ if (isNaN(character.click_value))
 else
 {
 	character.click_value = parseInt(character.click_value);
-	index.click_value_display.innerHTML = character.click_value;
 }
+index.click_value_display.innerHTML = character.click_value;
 
 //Get fame_level
 character.fame_level = localStorage.getItem('fame_level');
@@ -123,8 +136,8 @@ if (isNaN(character.fame_level))
 else
 {
 	character.fame_level = parseInt(character.fame_level);
-	index.fame_level_display.innerHTML = character.fame_level;
 }
+index.fame_level_display.innerHTML = character.fame_level;
 
 //Get fame
 character.fame = localStorage.getItem('fame'); 
@@ -133,8 +146,8 @@ if (isNaN(character.fame))
 else
 {
 	character.fame = parseInt(character.fame);
-	index.fame_display.innerHTML = character.fame;
 }
+index.fame_display.innerHTML = character.fame;
 
 //Get fame per second
 character.fame_second = localStorage.getItem('fame_second');
@@ -146,7 +159,16 @@ if (isNaN(character.fame_second))
 else
 {
 	character.fame_second = parseInt(character.fame_second);
-	index.fame_second_display.innerHTML = character.fame_second;
+}
+index.fame_second_display.innerHTML = character.fame_second;
+
+//Get character sex
+character.sex = localStorage.getItem('sex');
+if (!character.sex)
+	character.sex = 'male';
+else
+{
+	
 }
 
 //Convert number (million, milliard, billion...)
@@ -461,8 +483,13 @@ index.button.addEventListener('click', function() {
 	    var audio = new Audio('assets/audio/clic.mp3');
 		audio.play();
 
-		var image = index.button.querySelector('img');
-	    image.src="assets/img/animations/woman-2_anim.gif";
+		var image = index.button.querySelector('img'),
+			level = character.fame_level;
+
+		if (level > 2)
+			level = 2;
+
+	    image.src="assets/img/animations/"+ character.sex +"-"+ level +"_anim.gif";
 });
 
 //Make the description panel appear and fill on hover
