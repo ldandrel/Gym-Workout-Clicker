@@ -2,6 +2,7 @@ var index 				 	          = {};
 	index.container 	 	          = document.querySelector('body');
 	index.click_area				  = index.container.querySelector('.click-area');
 	index.button		 	          = index.container.querySelector('.click_button');
+	index.button_img				  = index.button.querySelector('img');
 	index.force_display  	          = index.container.querySelector('.force_display span');
 	index.force_second_display        = index.container.querySelector('.force_second_display span');
 	index.fame_display                = index.container.querySelector('.fame_display span');
@@ -45,11 +46,14 @@ Options
 
 *******************/
 
+var finished = true;
+
 index.sex_choose[0].addEventListener('click', function () {
 
 	character.sex = 'female';
 	index.container.classList.remove('choose_character');
 		localStorage.setItem('sex', character.sex);
+
 
 	var image = index.button.querySelector('img');
 
@@ -82,12 +86,12 @@ index.reset.addEventListener('click', function () {
 	
 	character.force    	   = 0;
 	character.force_second = 0;
-	character.force_second = 'male';
+	character.sex = 'male';
 	character.fame   	   = 0;
 	character.fame_second  = 0;
 	character.click_value  = 1;
 	character.fame_level   = 0;
-	character.level_value  = [1000, 10000, 100000]; 
+	character.level_value  = [1000, 10000]; 
 	amelioration = amelioration_base;
 	index.amelioration_list.innerHTML = '';
 	display_ameliorations();
@@ -272,11 +276,40 @@ function change_score_value () {
 	index.xp_bar.style.transform = 'translateX(0%) skew(-30deg) scaleX('+ (ratio * 0.75) +')';
 
 	if (ratio >= 1)
+	{
 		character.fame_level++;
 
+		var image = index.button.querySelector('img'),
+			level = character.fame_level;
+
+		image.src="assets/img/animations/"+ character.sex +"-"+ level +"_anim.gif";
+	}
+
 	setTimeout(check_upgrade_available, 1000);
+
+	if (character.fame_level == 1 && character.sex == 'female')
+	{
+		index.button_img.style.height = '360px';
+		index.button_img.style.width = 'auto';
+		index.button_img.style.marginTop = '40px';
+		index.button_img.style.marginLeft = '10px';
+	}
+
+	if (character.fame_level == 2 && character.sex == 'female')
+	{
+		index.button_img.style.height = '360px';
+		index.button_img.style.width = 'auto';
+		index.button_img.style.marginTop = '40px';
+		index.button_img.style.marginLeft = '40px';
+	}
+
 }
 change_score_value ();
+
+var image = index.button.querySelector('img'),
+	level = character.fame_level;
+
+image.src="assets/img/animations/"+ character.sex +"-"+ level +"_anim.gif";
 
 function check_upgrade_available () {
 
@@ -475,21 +508,29 @@ setTimeout(function () {
 
 //on click on the click zone increment score
 index.button.addEventListener('click', function() {
-		character.force = parseFloat(character.force);
-		character.force = parseFloat(character.force) + parseFloat(character.click_value);
-		change_score_value();
+	character.force = parseFloat(character.force);
+	character.force = parseFloat(character.force) + parseFloat(character.click_value);
+	change_score_value();
 
 
-	    var audio = new Audio('assets/audio/clic.mp3');
-		audio.play();
+    var audio = new Audio('assets/audio/clic.mp3');
+	audio.play();
 
-		var image = index.button.querySelector('img'),
-			level = character.fame_level;
+	var image = index.button.querySelector('img'),
+		level = character.fame_level;
 
-		if (level > 2)
-			level = 2;
+	if (level > 2)
+		level = 2;
 
-	    image.src="assets/img/animations/"+ character.sex +"-"+ level +"_anim.gif";
+	if (finished == true )
+	{
+		finished = false;
+
+    	image.src="assets/img/animations/"+ character.sex +"-"+ level +"_anim.gif";
+		setTimeout(function () {
+			finished = true;
+		}, 500);
+	}
 });
 
 //Make the description panel appear and fill on hover
