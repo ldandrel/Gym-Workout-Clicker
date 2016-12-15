@@ -380,10 +380,13 @@ index.button.addEventListener('click', function() {
 		character.force = parseFloat(character.force) + parseFloat(character.click_value);
 		change_score_value();
 
+
+	    var audio = new Audio('assets/audio/clic.mp3');
+		audio.play();
+
 		var image = index.button.querySelector('img')
-	
-		
-			image.src="assets/img/animations/woman-1_anim.gif";
+	    image.src="assets/img/animations/woman-2_anim.gif";
+
 			
 
 		
