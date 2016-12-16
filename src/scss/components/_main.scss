@@ -276,13 +276,14 @@
 			right: 20px;
 			text-align: right;
 			transition: opacity 0.3s ease;
+			border-radius: 5px;
 
 			.gym-choose-button
 			{
-				background: #fff;
+				background: url(../img/internet.png);
 				width: 30px;
 				height: 30px;
-				border-radius: 5px;
+				cursor: pointer;
 			}
 
 			.gym-list
@@ -296,6 +297,12 @@
 				{
 					padding: 20px 40px;
 					cursor: pointer;
+					border: $second-color 2px solid;
+				}
+
+				li:hover
+				{
+					background: #eee;
 				}
 			}
 
@@ -595,7 +602,7 @@
 				.level
 				{
 					font-family: $heading-font;
-					color: rgba(255, 255, 255, 0.1);
+					color: rgba(5, 209, 215, 0.2);
 					position: absolute;
 					right: 20px;
 					top: -50px;

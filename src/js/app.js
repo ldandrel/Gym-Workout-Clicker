@@ -510,6 +510,7 @@ function display_ameliorations () {
 
 		var name     = amelioration[character.page_amelio][i].name,
 			strength = amelioration[character.page_amelio][i].strength,
+			strength = convert_number(strength);
 			url      = amelioration[character.page_amelio][i].icon,
 			level    = amelioration[character.page_amelio][i].level;
 
@@ -533,9 +534,9 @@ function add_event_buy () {
 				price = amelioration[character.page_amelio][index].strength;
 
 			if (character.fame <  amelioration[character.page_amelio][index].fame)
-				alert ('you are not famous enough');
+				console.log ('you are not famous enough');
 			else if (character.force <  price)
-				alert('You have not enought strength to purchase that');
+				console.log('You have not enought strength to purchase that');
 			else
 			{
 				character.force = character.force - price;
@@ -548,7 +549,7 @@ function add_event_buy () {
 
 		if (character.page_amelio < 2)
 		{
-					index.amelioration_button_upgrade[i] = [];
+			index.amelioration_button_upgrade[i] = [];
 
 			for (var j = 0; j < 2; j++)
 			{
@@ -561,12 +562,12 @@ function add_event_buy () {
 						price_upgrade   = amelioration[character.page_amelio][index_upgrade_2].upgrade[index_upgrade].strength;
 
 					if (amelioration[character.page_amelio][index_upgrade_2].upgrade[index_upgrade].bought == true)
-						alert('You have already bought that item');
+						console.log('You have already bought that item');
 					else
 					{
 
 						if (character.force <  price_upgrade)
-							alert('You have not enought strength to purchase that');
+							console.log('You have not enought strength to purchase that');
 						else
 						{
 							character.force = character.force - price_upgrade;

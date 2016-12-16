@@ -574,7 +574,7 @@ var amelioration_base =
 			'name'        : 'Super Héros',
 			'description' : 'Devenez un super héros et intégrer les avengers !',
 			'strength'	  : 100000000000000000000,
-			'fame'        : 0,
+			'fame'        : 10000,
 			'value'		  : 5000000,
 			'level'       : 0,
 			'results'     : 'auto_both',
