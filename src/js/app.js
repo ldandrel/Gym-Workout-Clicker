@@ -314,6 +314,10 @@ function level_up() {
 	index.button_img.src="assets/img/animations/"+ character.sex +"-"+ character.fame_level +"_anim.gif";
 
 	check_size_character();
+
+	setTimeout(function () {
+		display_ameliorations();
+	}, 400);
 }
 
 //Increase the fame and strength stats per second
@@ -680,6 +684,35 @@ function change_upgrade_value (index1, index2) {
 /*
  * Notifications
  */
+
+//Sync the score every second
+setInterval(function () {
+
+	var amelioration_string = JSON.stringify(amelioration);
+
+	localStorage.setItem('force', character.force);
+	localStorage.setItem('amelioration', amelioration_string);
+	localStorage.setItem('force_second', character.force_second);
+	localStorage.setItem('fame', character.fame);
+	localStorage.setItem('fame_second', character.fame_second);
+	localStorage.setItem('fame_level', character.fame_level);
+	localStorage.setItem('click_value', character.click_value);
+	document.title = convert_number(character.force) + ' Gym-Workout-Clicker';
+}, 1000);
+
+//Increase the fame and strength per second
+setInterval(function () {
+
+	character.fame = parseFloat(character.fame) + character.fame_second;
+	character.force = parseFloat(character.force) + character.force_second;
+	change_score_value();
+}, 100)
+
+/*******************
+
+Notifications
+
+********************/
 
 //check and display if there is any notification to display
 function check_notif () {
