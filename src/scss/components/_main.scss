@@ -244,6 +244,7 @@
 		color: $second-color;
 		font-family: $main-font;
 		font-weight: 700;
+		user-select: none;
 
 		.click_button
 		{
@@ -255,6 +256,7 @@
 			bottom: 10px;
 			left: calc(50% - 150px);
 			cursor: pointer;
+			user-select: none;
 
 			img
 			{
@@ -263,6 +265,7 @@
 				position: absolute;
 				top: 0;
 				left: 0;
+				user-select: none;
 			}
 		}
 
@@ -300,14 +303,12 @@
 
 		.open .gym-list
 		{
-			opacity: 0 !important;
-			z-index: -10 !important;
+			display: none;
 		}
 
 		.close .gym-list
 		{
-			opacity: 1 !important;
-			z-index: 10 !important;
+			display: inline-block;
 		}
 		
 		//score area
@@ -744,9 +745,68 @@
 //responsiv
 @media only screen and (max-width: 950px)
 {
+
+	.landing_screen
+	{
+		.logo img
+		{
+			height: 30vh;
+		}
+
+		.description
+		{
+			width: 80vw;
+			left: 10vw;
+		}
+
+		.play_button
+		{
+			bottom: 30vh;
+		}
+	}
+
+	.choose-character
+	{
+
+		padding: 10px;
+
+		.half-character
+		{
+			padding: 50px 100px;
+		}
+	}
+
 	.left-part
 	{
-		transform: translateX(400px);
+		width: 100vw;
+		position: fixed;
+		top: 0;
+		left: 0;
+		transition: transform ease 0.3s;
+		will-change: transform;
+		transform: translateX(100vw);
+		height: 100vh;
+
+		.amelioration-title, .choose-amelioration-panel, .amelioration
+		{
+			width: 100%;
+		}
+
+		.amelioration ul.amelioration-list
+		{
+			width: calc(100% - 21px);
+			margin: 0px 0px 0px 10px;
+
+			li
+			{
+				width: calc(100% - 20px);
+			}
+		}
+	}
+
+	.burger
+	{
+		transform: translateX(0vw);
 	}
 
 	.game-interface .click-area
@@ -767,4 +827,57 @@
 			background: #fff;
 		}
 	}
+
+	.click_button
+	{
+		transform: scale(0.6) !important;
+		left: 0% !important;
+	}
+
+	.mouse-hover-description
+	{
+		display: none;
+	}
+
+	.xp-bar
+	{
+		width: 60% !important;
+	}
+
+	.fame_level
+	{
+		right: 40px !important;
+	}
+
+	.click_value_display
+	{
+		width: 70px;
+		left: 0px !important;
+		top: 20px;
+		line-height: 16px ! important;
+	}
+}
+
+@media only screen and (max-width: 850px)
+{
+	.game-interface .click-area .score-display .fame
+	{
+		width: 100vw;
+		margin-top: 70px;
+		background: $main-color;
+	}
+
+	.game-interface .click-area .score-display .force
+	{
+		width: 100vw;
+	}
+
+	.buy-burger
+	{
+		display: inline-block !important;
+		position: absolute;
+		left: 20px;
+		top: 150px;
+	}
+
 }

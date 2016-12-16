@@ -96,7 +96,6 @@ index.reset.addEventListener('click', function () {
 	
 	character.force    	   		      = 0;
 	character.force_second 		      = 0;
-	character.sex 		   		      = 'male';
 	character.fame   	   		      = 0;
 	character.fame_second  		      = 0;
 	character.click_value  		      = 1;
@@ -466,6 +465,20 @@ function change_amelioration_value (index1) {
 			character.force_second += amelioration[character.page_amelio][index1].value;
 	else if (results_amelioration == 'auto_fame')
 			character.fame_second += amelioration[character.page_amelio][index1].value;
+	else if (results_amelioration == 'auto_both')
+	{
+		character.fame_second += amelioration[character.page_amelio][index1].value;
+		character.force_second += amelioration[character.page_amelio][index1].value;
+	}
+	else if (results_amelioration == 'percent_both')
+	{
+		for (var i = 0; i < amelioration[character.page_amelio].length; i++ )
+		{
+			amelioration[character.page_amelio][i].value = ((100 + amelioration[character.page_amelio][index1].value)*amelioration[character.page_amelio][i].value)/100;
+		}
+		character.force_second = (character.force_second*(100 + amelioration[character.page_amelio][index1].value))/100;
+		character.fame_second = (character.fame_second*(100 + amelioration[character.page_amelio][index1].value))/100;
+	}
 		
 }
 
@@ -575,16 +588,23 @@ function check_upgrade_available () {
 	{
 		for (var i = 0; i < amelioration[character.page_amelio].length; i++)
 		{
+			var upgrade = document.querySelector('li.index-'+ i +' .upgrades .index-0');
 			if (amelioration[character.page_amelio][i].upgrade[0].strength < character.force)
 			{
-				var upgrade = document.querySelector('li.index-'+ i +' .upgrades .index-0');
 				upgrade.style.background = 'url(assets/img/badges/argent.svg)';
 			}
-
+			else if(!upgrade.classList.contains('already-bought'))
+			{
+				upgrade.style.background = 'url(assets/img/badges/argent_lock.svg)';
+			}
+			var upgrade = document.querySelector('li.index-'+ i +' .upgrades .index-1');
 			if (amelioration[character.page_amelio][i].upgrade[1].strength < character.force)
 			{
-				var upgrade = document.querySelector('li.index-'+ i +' .upgrades .index-1');
 				upgrade.style.background = 'url(assets/img/badges/or.svg)';
+			}
+			else if(!upgrade.classList.contains('already-bought'))
+			{
+				upgrade.style.background = 'url(assets/img/badges/or_lock.svg)';
 			}
 		}
 	}
@@ -605,7 +625,7 @@ function change_upgrade_value (index1, index2) {
 
 		character.force_second = character.force_second - actual_bonus + next_bonus;
 	}
-	//multiplication (double effect)
+	//multiplication strength (double effect)
 	else if (amelioration[character.page_amelio][index2].upgrade[index1].results == 'multiplication')
 	{
 		var actual_bonus = amelioration[character.page_amelio][index2].value * amelioration[character.page_amelio][index2].level;
@@ -624,7 +644,30 @@ function change_upgrade_value (index1, index2) {
 		}
 		character.force_second = (character.force_second*(100 + amelioration[character.page_amelio][index2].upgrade[index1].value))/100;
 	}
+	// Percent of fame gained
+	else if (amelioration[character.page_amelio][index2].upgrade[index1].results == 'percent_fame')
+	{
+		for (var i = 0; i < amelioration[character.page_amelio].length; i++ )
+		{
+			amelioration[character.page_amelio][i].value = ((100 + amelioration[character.page_amelio][index2].upgrade[index1].value)*amelioration[character.page_amelio][i].value)/100;
+		}
+		character.fame_second = (character.fame_second*(100 + amelioration[character.page_amelio][index2].upgrade[index1].value))/100;
+	}
+	// add fame
+	else if (amelioration[character.page_amelio][index2].upgrade[index1].results == 'add_fame')
+	{
+		character.fame = character.fame + amelioration[character.page_amelio][index2].upgrade[index1].value;
+	}
+	//multiplication fame (double effect)
+	else if (amelioration[character.page_amelio][index2].upgrade[index1].results == 'multiplication_fame')
+	{
+		var actual_bonus = amelioration[character.page_amelio][index2].value * amelioration[character.page_amelio][index2].level;
+		var next_bonus   = actual_bonus * amelioration[character.page_amelio][index2].upgrade[index1].value;
 
+		amelioration[character.page_amelio][index2].value = amelioration[character.page_amelio][index2].value * amelioration[character.page_amelio][index2].upgrade[index1].value;
+
+		character.fame_second = character.fame_second - actual_bonus + next_bonus;
+	}
 	if (amelioration[character.page_amelio][index2].upgrade[index1].again == false)
 	{
 		amelioration[character.page_amelio][index2].upgrade[index1].bought = true;
@@ -702,9 +745,23 @@ function panel_appear () {
 				name         = amelioration[character.page_amelio][index1].name,
 				value        = amelioration[character.page_amelio][index1].value,
 				cout         = amelioration[character.page_amelio][index1].strength,
-				results      = amelioration[character.page_amelio][index1].results;
+				results      = amelioration[character.page_amelio][index1].results,
+				text         = '';
 
-			index.panel_desc.innerHTML = '<p>Description : ' + description +'</p><p> Chaque <strong>' + name +'</strong> vous donne <strong>+' + value + '</strong> dans votre <strong>' + results + '</strong><p>Cout : '+ cout +'<p>';
+			var results_amelioration = amelioration[character.page_amelio][index1].results;
+
+			if (results_amelioration == 'click_value')
+				text = 'La valeur d\'un de vos click augmentera de ' + amelioration[character.page_amelio][index1].value;
+			else if (results_amelioration == 'auto_click')
+				text = 'Vous gagnerez ' + (amelioration[character.page_amelio][index1].value*10)  + ' points de force par seconde';
+			else if (results_amelioration == 'auto_fame')
+				text = 'Vous gagnerez ' + (amelioration[character.page_amelio][index1].value*10) + ' abonnés par seconde';
+			else if (results_amelioration == 'auto_both')
+				text = 'Vous gagnerez ' + (amelioration[character.page_amelio][index1].value*10) + ' abonnés et de points de force par seconde';
+			else if (results_amelioration == 'percent_both')
+				text = 'Vous gagnerez ' + amelioration[character.page_amelio][index1].value + '% d\'abonnés par seconde';
+
+			index.panel_desc.innerHTML = '<p>Description : ' + description +'</p><p>'+ text +'</p><p>Cout : '+ cout +'</p>';
 
 			index.panel_desc.style.transform = 'translateX(-400px) translateY('+ button_coord.top +'px)';
 			index.panel_desc.style.opacity = 1;
@@ -749,9 +806,35 @@ function panel_appear () {
 						name        = amelioration[character.page_amelio][index1].upgrade[index2].name,
 						value       = amelioration[character.page_amelio][index1].upgrade[index2].value,
 						cout        = amelioration[character.page_amelio][index1].upgrade[index2].strength,
-						results     = amelioration[character.page_amelio][index1].upgrade[index2].results;
+						results     = amelioration[character.page_amelio][index1].upgrade[index2].results,
+						text        = '';
 
-					index.panel_desc.innerHTML = '<p>Description : ' + description +'</p><p> Chaque <strong>' + name +'</strong> vous donne <strong>+' + value + '</strong> dans votre <strong>' + results + '</strong><p>Cout : '+ cout +'<p>';
+					if (amelioration[character.page_amelio][index1].upgrade[index2].results == 'multiplication_fame')
+					{
+						text = 'Les abonnés gagnés grâce aux '+ amelioration[character.page_amelio][index1].name +' seront multipliés par ' + amelioration[character.page_amelio][index1].upgrade[index2].value;
+					}
+					else if (amelioration[character.page_amelio][index1].upgrade[index2].results == 'add_fame')
+					{
+						text = 'Votre nombre d\'abonnés augmentera de ' + amelioration[character.page_amelio][index1].upgrade[index2].value;
+					}
+					else if (amelioration[character.page_amelio][index1].upgrade[index2].results == 'percent_fame')
+					{
+						text = 'Tous vos abonnées augmenteront de ' + amelioration[character.page_amelio][index1].upgrade[index2].value + ' %';
+					}
+					else if (amelioration[character.page_amelio][index1].upgrade[index2].results == 'percent_strength')
+					{
+						text = 'Tous vos points de force augmenteront de ' + amelioration[character.page_amelio][index1].upgrade[index2].value + ' %';
+					}
+					else if (amelioration[character.page_amelio][index1].upgrade[index2].results == 'multiplication')
+					{
+						text = 'La force gagnée grâce aux '+ amelioration[character.page_amelio][index1].name +' sera multipliée par ' + amelioration[character.page_amelio][index1].upgrade[index2].value;
+					}
+					else if (amelioration[character.page_amelio][index1].upgrade[index2].results == 'multiplication_mouse')
+					{
+						text = ' La valeur d\'un de vos clicks augmentera de '+amelioration[character.page_amelio][index1].upgrade[index2].value+' ainsi que le nombre d\'abonnés gagné grace aux '+ amelioration[character.page_amelio][index1].name +' sera multiplié par ' + amelioration[character.page_amelio][index1].upgrade[index2].value;
+					}
+
+					index.panel_desc.innerHTML = '<p>Description : ' + description +'</p><p>'+text+'<p>Cout : '+ cout +'<p>';
 	    		});
 
 	    		up_button.addEventListener('mouseout', function () {
@@ -804,16 +887,19 @@ index.click_area.style.backgroundSize = '100% auto';
  */
 
 //make the burger menu display the ameliorations
-index.burger = index.container.querySelector('.hamburger');
+index.burger    = index.container.querySelector('.hamburger');
+index.left_part = index.container.querySelector('.left-part');
 
 index.burger.addEventListener('click', function () {
 
  	if (this.classList.contains('is-active'))
  	{
  		this.classList.remove('is-active');
+ 		index.left_part.classList.remove('burger');
  	}
  	else
  	{
  		this.classList.add('is-active');
+ 		index.left_part.classList.add('burger');
  	}
- });
+});
